@@ -1,0 +1,60 @@
+# 中等规模场景训练配置
+# 平衡训练速度和场景复杂度
+
+# === 场景参数 ===
+scene:
+  area_size: 800.0          # 区域大小 800m x 800m
+  num_locations: 50         # 监控点数量 50
+  num_uavs: 30              # UAV数量 30
+  num_requests: 60          # 请求数量 60
+  num_time_slots: 4         # 时间槽数
+  vnfs_per_request: 2
+
+# === PPO训练参数 ===
+ppo:
+  lr: 1e-4                  # 学习率
+  gamma: 0.995              # 折扣因子
+  lambda: 0.95
+  epsilon: 0.2
+  value_loss_coef: 0.5
+  entropy_coef: 0.01
+  max_grad_norm: 0.5
+  ppo_epochs: 4
+  batch_size: 128           # 中等批次大小
+  num_episodes_per_update: 10
+
+# === 网络参数 ===
+network:
+  hidden_dim: 192           # 中等隐藏层
+  num_heads: 4
+  num_encoder_layers: 2
+  dropout: 0.1
+  use_cross_attn: True
+
+# === 训练参数 ===
+training:
+  total_episodes: 2000      # 中等训练回合
+  max_steps_per_episode: 400
+  eval_interval: 100
+  save_interval: 500
+  use_reward_norm: True
+  reward_scale: 1.0
+
+# === 环境参数 ===
+env:
+  max_pending: 60
+  max_steps_per_slot: 100
+  invalid_action_penalty: 1.0
+
+# === 数据集参数 ===
+dataset:
+  base_seed: 42
+  num_episodes: 100
+  data_dir: './data'
+
+# === 日志参数 ===
+logging:
+  log_dir: './logs'
+  checkpoint_dir: './checkpoints'
+  use_tensorboard: True
+  verbose: True

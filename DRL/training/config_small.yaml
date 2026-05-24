@@ -1,0 +1,60 @@
+# 小规模场景训练配置
+# 适用于快速实验和调试
+
+# === 场景参数 ===
+scene:
+  area_size: 1000.0          # 区域大小 1000m x 1000m
+  num_locations: 20           # 监控点数量 8
+  num_uavs: 8                # UAV数量 8
+  num_requests: 30           # 请求数量 30
+  num_time_slots: 4          # 时间槽数 4
+  vnfs_per_request: 2        # 每个请求的VNF数
+
+# === PPO训练参数 ===
+ppo:
+  lr: 0.0003                 # 学习率（降低，避免更新过快）
+  gamma: 0.99                # 折扣因子
+  lambda: 0.95               # GAE参数
+  epsilon: 0.2               # PPO裁剪参数（恢复默认，更宽松的裁剪）
+  value_loss_coef: 0.5       # 价值损失系数
+  entropy_coef: 0.02         # 熵奖励系数（增加，鼓励探索）
+  max_grad_norm: 0.5         # 梯度裁剪
+  ppo_epochs: 4              # PPO更新轮数（减少，避免过拟合）
+  batch_size: 64             # 批次大小（减小，更精细的更新）
+  num_episodes_per_update: 10  # 每次更新收集的episode数（减少，降低方差）
+
+# === 网络参数 ===
+network:
+  hidden_dim: 256            # 隐藏层维度
+  num_heads: 8               # 注意力头数
+  num_encoder_layers: 3      # 编码器层数
+  dropout: 0.1               # Dropout率
+  use_cross_attn: True       # 使用交叉注意力
+
+# === 训练参数 ===
+training:
+  total_episodes: 3000       # 总训练回合数
+  max_steps_per_episode: 200 # 每回合最大步数
+  eval_interval: 50          # 评估间隔
+  save_interval: 500         # 保存间隔
+  use_reward_norm: true     # 禁用奖励归一化（可能导致训练不稳定）
+  reward_scale: 1.0          # 奖励缩放
+
+# === 环境参数 ===
+env:
+  max_pending: 30            # 最大待处理请求数
+  max_steps_per_slot: 100    # 每时隙最大步数
+  invalid_action_penalty: 1.0  # 无效动作惩罚
+
+# === 数据集参数 ===
+dataset:
+  base_seed: 42              # 随机种子
+  num_episodes: 50           # 数据集episode数
+  data_dir: './data'
+
+# === 日志参数 ===
+logging:
+  log_dir: './logs'
+  checkpoint_dir: './checkpoints'
+  use_tensorboard: True
+  verbose: True

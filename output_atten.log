@@ -1,0 +1,95 @@
+nohup: 忽略输入
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+Users of this version of Gym should be able to simply replace 'import gym' with 'import gymnasium as gym' in the vast majority of cases.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+日志目录: /mnt/sdb11/HK/UAV_SFC_code/MAPPO/output/mappo_seed42_20260518_204735/log
+配置已保存到: /mnt/sdb11/HK/UAV_SFC_code/MAPPO/output/mappo_seed42_20260518_204735/log/config.json
+数据集已从 ./eval_data/dataset_seed100042_ep10_loc20_area1000_uav8_req30.pkl 加载
+  base_seed: 100042
+  num_episodes: 10
+  num_locations: 20
+  area_size: 1000.0
+  num_uavs: 8
+  num_requests: 30
+[MAPPO] eval dataset ready: episodes=10 seed=100042 dir=./eval_data
+数据集已从 ./data/dataset_seed42_ep100_loc20_area1000_uav8_req30.pkl 加载
+  base_seed: 42
+  num_episodes: 100
+  num_locations: 20
+  area_size: 1000.0
+  num_uavs: 8
+  num_requests: 30
+训练日志: /mnt/sdb11/HK/UAV_SFC_code/MAPPO/output/mappo_seed42_20260518_204735/log/training_log.csv
+[MAPPO] update=1/488 env_steps=1024 loss=3.7136 pi=0.0014 v=7.4608 ent=0.9073 kl=0.147278 lr=6e-05 rew=-0.0010 ep_ret10=26.4611 ep_len10=160.00 ep_succ10=0.2889
+[MAPPO] update=10/488 env_steps=10240 loss=1.2978 pi=-0.0018 v=2.6289 ent=0.7405 kl=0.028927 lr=0.000105 rew=0.0357 ep_ret10=25.1917 ep_len10=135.20 ep_succ10=0.2733
+[MAPPO] update=20/488 env_steps=20480 loss=1.2623 pi=0.0014 v=2.5547 ent=0.8233 kl=0.015916 lr=0.000155 rew=0.0482 ep_ret10=26.6800 ep_len10=109.60 ep_succ10=0.2900
+[MAPPO] update=30/488 env_steps=30720 loss=0.9145 pi=0.0021 v=1.8535 ent=0.7154 kl=0.022116 lr=0.000205 rew=0.0571 ep_ret10=29.2117 ep_len10=110.40 ep_succ10=0.3233
+[MAPPO] update=40/488 env_steps=40960 loss=0.5690 pi=-0.0046 v=1.1745 ent=0.6821 kl=0.029061 lr=0.000255 rew=0.0231 ep_ret10=26.7067 ep_len10=109.60 ep_succ10=0.2933
+[MAPPO][EVAL] env_steps=50176 target=50000 episodes=10 succ=0.3200 ret=28.6950
+[MAPPO] update=50/488 env_steps=51200 loss=0.7735 pi=0.0074 v=1.5573 ent=0.6268 kl=0.037927 lr=0.0003 rew=0.0427 ep_ret10=31.8183 ep_len10=114.40 ep_succ10=0.3567
+[MAPPO] update=60/488 env_steps=61440 loss=0.5855 pi=0.0007 v=1.1919 ent=0.5616 kl=0.037919 lr=0.000299653 rew=0.0473 ep_ret10=32.6983 ep_len10=112.00 ep_succ10=0.3667
+[MAPPO] update=70/488 env_steps=71680 loss=0.3761 pi=-0.0014 v=0.7732 ent=0.4552 kl=0.015880 lr=0.000298613 rew=0.0244 ep_ret10=30.1333 ep_len10=107.20 ep_succ10=0.3367
+[MAPPO] update=80/488 env_steps=81920 loss=0.5938 pi=0.0029 v=1.2009 ent=0.4786 kl=0.009698 lr=0.000296887 rew=0.0647 ep_ret10=34.9033 ep_len10=103.20 ep_succ10=0.3967
+[MAPPO] update=90/488 env_steps=92160 loss=0.3855 pi=-0.0034 v=0.7940 ent=0.4003 kl=0.008379 lr=0.000294482 rew=0.0488 ep_ret10=35.3750 ep_len10=108.00 ep_succ10=0.4000
+[MAPPO][EVAL] env_steps=100352 target=100000 episodes=10 succ=0.3667 ret=32.3983
+[MAPPO] update=100/488 env_steps=102400 loss=0.5433 pi=0.0025 v=1.0990 ent=0.4329 kl=0.003814 lr=0.000291411 rew=0.0396 ep_ret10=36.9250 ep_len10=112.00 ep_succ10=0.4200
+[MAPPO] update=110/488 env_steps=112640 loss=0.5899 pi=-0.0015 v=1.1980 ent=0.3798 kl=0.008159 lr=0.00028769 rew=0.0581 ep_ret10=37.6800 ep_len10=108.00 ep_succ10=0.4300
+[MAPPO] update=120/488 env_steps=122880 loss=0.4645 pi=-0.0019 v=0.9470 ent=0.3543 kl=0.013414 lr=0.000283339 rew=0.0434 ep_ret10=35.1650 ep_len10=100.80 ep_succ10=0.4000
+[MAPPO] update=130/488 env_steps=133120 loss=0.4249 pi=-0.0030 v=0.8702 ent=0.3623 kl=0.002234 lr=0.000278378 rew=0.0389 ep_ret10=37.3683 ep_len10=108.00 ep_succ10=0.4267
+[MAPPO] update=140/488 env_steps=143360 loss=0.3295 pi=-0.0014 v=0.6762 ent=0.3556 kl=0.017746 lr=0.000272835 rew=0.0306 ep_ret10=34.3400 ep_len10=102.40 ep_succ10=0.3900
+[MAPPO][EVAL] env_steps=150528 target=150000 episodes=10 succ=0.4067 ret=35.5583
+[MAPPO] update=150/488 env_steps=153600 loss=0.3238 pi=0.0026 v=0.6560 ent=0.3392 kl=0.015981 lr=0.000266737 rew=0.0191 ep_ret10=33.5650 ep_len10=104.00 ep_succ10=0.3800
+[MAPPO] update=160/488 env_steps=163840 loss=0.3499 pi=-0.0043 v=0.7218 ent=0.3345 kl=0.012056 lr=0.000260116 rew=0.0395 ep_ret10=36.4983 ep_len10=103.20 ep_succ10=0.4167
+[MAPPO] update=170/488 env_steps=174080 loss=0.3750 pi=0.0024 v=0.7583 ent=0.3293 kl=0.004790 lr=0.000253006 rew=0.0138 ep_ret10=34.0883 ep_len10=107.20 ep_succ10=0.3867
+[MAPPO] update=180/488 env_steps=184320 loss=0.3101 pi=-0.0014 v=0.6365 ent=0.3379 kl=0.014962 lr=0.000245444 rew=0.0231 ep_ret10=34.5917 ep_len10=102.40 ep_succ10=0.3933
+[MAPPO] update=190/488 env_steps=194560 loss=0.3516 pi=-0.0017 v=0.7181 ent=0.2914 kl=0.009037 lr=0.000237467 rew=0.0103 ep_ret10=33.8617 ep_len10=104.80 ep_succ10=0.3833
+[MAPPO][EVAL] env_steps=200704 target=200000 episodes=10 succ=0.4200 ret=36.5950
+[MAPPO] update=200/488 env_steps=204800 loss=0.3280 pi=0.0004 v=0.6670 ent=0.2898 kl=0.003843 lr=0.000229118 rew=0.0159 ep_ret10=33.4033 ep_len10=101.60 ep_succ10=0.3767
+[MAPPO] update=210/488 env_steps=215040 loss=0.3224 pi=-0.0029 v=0.6628 ent=0.3058 kl=0.010805 lr=0.00022044 rew=0.0245 ep_ret10=35.6683 ep_len10=103.20 ep_succ10=0.4067
+[MAPPO] update=220/488 env_steps=225280 loss=0.2635 pi=-0.0019 v=0.5431 ent=0.3060 kl=0.010128 lr=0.000211476 rew=0.0202 ep_ret10=32.4333 ep_len10=92.80 ep_succ10=0.3667
+[MAPPO] update=230/488 env_steps=235520 loss=0.2954 pi=-0.0003 v=0.6041 ent=0.3168 kl=0.007550 lr=0.000202273 rew=0.0087 ep_ret10=33.0767 ep_len10=99.20 ep_succ10=0.3733
+[MAPPO] update=240/488 env_steps=245760 loss=0.2996 pi=-0.0026 v=0.6165 ent=0.3025 kl=0.005981 lr=0.000192879 rew=0.0088 ep_ret10=33.5350 ep_len10=100.80 ep_succ10=0.3800
+[MAPPO][EVAL] env_steps=250880 target=250000 episodes=10 succ=0.4200 ret=36.6250
+[MAPPO] update=250/488 env_steps=256000 loss=0.2576 pi=-0.0018 v=0.5302 ent=0.2884 kl=0.006134 lr=0.000183341 rew=0.0134 ep_ret10=33.7717 ep_len10=98.40 ep_succ10=0.3833
+[MAPPO] update=260/488 env_steps=266240 loss=0.2925 pi=-0.0043 v=0.6055 ent=0.2992 kl=0.008852 lr=0.000173709 rew=0.0258 ep_ret10=36.7300 ep_len10=98.40 ep_succ10=0.4200
+[MAPPO] update=270/488 env_steps=276480 loss=0.2995 pi=-0.0014 v=0.6161 ent=0.3570 kl=0.009167 lr=0.000164032 rew=0.0337 ep_ret10=35.4517 ep_len10=97.60 ep_succ10=0.4033
+[MAPPO] update=280/488 env_steps=286720 loss=0.3185 pi=-0.0055 v=0.6607 ent=0.3166 kl=0.009958 lr=0.00015436 rew=0.0170 ep_ret10=34.7733 ep_len10=100.80 ep_succ10=0.3967
+[MAPPO] update=290/488 env_steps=296960 loss=0.2477 pi=0.0013 v=0.5057 ent=0.3244 kl=0.010183 lr=0.000144743 rew=0.0116 ep_ret10=34.0433 ep_len10=96.80 ep_succ10=0.3867
+[MAPPO][EVAL] env_steps=300032 target=300000 episodes=10 succ=0.4267 ret=37.1533
+[MAPPO] update=300/488 env_steps=307200 loss=0.2428 pi=-0.0011 v=0.5019 ent=0.3521 kl=0.004951 lr=0.000135229 rew=0.0189 ep_ret10=33.5750 ep_len10=95.20 ep_succ10=0.3800
+[MAPPO] update=310/488 env_steps=317440 loss=0.3097 pi=0.0023 v=0.6282 ent=0.3359 kl=0.012060 lr=0.000125869 rew=0.0302 ep_ret10=35.6683 ep_len10=95.20 ep_succ10=0.4067
+[MAPPO] update=320/488 env_steps=327680 loss=0.2480 pi=-0.0008 v=0.5108 ent=0.3284 kl=0.003421 lr=0.000116711 rew=0.0309 ep_ret10=35.3117 ep_len10=93.60 ep_succ10=0.4033
+[MAPPO] update=330/488 env_steps=337920 loss=0.2481 pi=-0.0031 v=0.5152 ent=0.3211 kl=0.001900 lr=0.0001078 rew=0.0217 ep_ret10=34.3200 ep_len10=96.80 ep_succ10=0.3900
+[MAPPO] update=340/488 env_steps=348160 loss=0.2731 pi=0.0011 v=0.5561 ent=0.3035 kl=0.005707 lr=9.9184e-05 rew=0.0319 ep_ret10=36.1567 ep_len10=96.00 ep_succ10=0.4133
+[MAPPO][EVAL] env_steps=350208 target=350000 episodes=10 succ=0.4333 ret=37.6767
+[MAPPO] update=350/488 env_steps=358400 loss=0.3947 pi=0.0031 v=0.7953 ent=0.3032 kl=0.006268 lr=9.09062e-05 rew=0.0177 ep_ret10=34.3000 ep_len10=98.40 ep_succ10=0.3900
+[MAPPO] update=360/488 env_steps=368640 loss=0.2847 pi=0.0021 v=0.5768 ent=0.2886 kl=0.004786 lr=8.30094e-05 rew=0.0080 ep_ret10=33.4850 ep_len10=97.60 ep_succ10=0.3800
+[MAPPO] update=370/488 env_steps=378880 loss=0.3250 pi=0.0009 v=0.6607 ent=0.3123 kl=0.003623 lr=7.55342e-05 rew=0.0204 ep_ret10=36.1967 ep_len10=99.20 ep_succ10=0.4133
+[MAPPO] update=380/488 env_steps=389120 loss=0.3129 pi=0.0035 v=0.6316 ent=0.3165 kl=0.010202 lr=6.85191e-05 rew=0.0049 ep_ret10=32.6900 ep_len10=97.60 ep_succ10=0.3700
+[MAPPO] update=390/488 env_steps=399360 loss=0.2403 pi=0.0017 v=0.4890 ent=0.2975 kl=0.006999 lr=6.20001e-05 rew=0.0106 ep_ret10=32.6700 ep_len10=93.60 ep_succ10=0.3700
+[MAPPO][EVAL] env_steps=400384 target=400000 episodes=10 succ=0.4133 ret=36.0467
+[MAPPO] update=400/488 env_steps=409600 loss=0.2091 pi=0.0003 v=0.4297 ent=0.3001 kl=0.005084 lr=5.60108e-05 rew=0.0159 ep_ret10=33.7317 ep_len10=96.00 ep_succ10=0.3833
+[MAPPO] update=410/488 env_steps=419840 loss=0.2290 pi=-0.0033 v=0.4770 ent=0.3068 kl=0.003389 lr=5.0582e-05 rew=0.0166 ep_ret10=32.9717 ep_len10=92.80 ep_succ10=0.3733
+[MAPPO] update=420/488 env_steps=430080 loss=0.2435 pi=-0.0018 v=0.5026 ent=0.2966 kl=0.001194 lr=4.57415e-05 rew=0.0142 ep_ret10=35.3867 ep_len10=98.40 ep_succ10=0.4033
+[MAPPO] update=430/488 env_steps=440320 loss=0.3139 pi=0.0019 v=0.6357 ent=0.2931 kl=0.007010 lr=4.15143e-05 rew=-0.0010 ep_ret10=32.7750 ep_len10=99.20 ep_succ10=0.3700
+[MAPPO][EVAL] env_steps=450560 target=450000 episodes=10 succ=0.4333 ret=37.6817
+[MAPPO] update=440/488 env_steps=450560 loss=0.2625 pi=0.0017 v=0.5332 ent=0.2918 kl=0.005580 lr=3.79222e-05 rew=0.0044 ep_ret10=35.7483 ep_len10=103.20 ep_succ10=0.4067
+[MAPPO] update=450/488 env_steps=460800 loss=0.2535 pi=0.0012 v=0.5158 ent=0.2812 kl=0.001688 lr=3.49835e-05 rew=0.0113 ep_ret10=36.7850 ep_len10=100.80 ep_succ10=0.4200
+[MAPPO] update=460/488 env_steps=471040 loss=0.2834 pi=-0.0015 v=0.5812 ent=0.2833 kl=0.000186 lr=3.27134e-05 rew=0.0075 ep_ret10=35.0900 ep_len10=98.40 ep_succ10=0.4000
+[MAPPO] update=470/488 env_steps=481280 loss=0.2525 pi=0.0002 v=0.5167 ent=0.3032 kl=0.004946 lr=3.11236e-05 rew=0.0186 ep_ret10=36.7400 ep_len10=98.40 ep_succ10=0.4200
+[MAPPO] update=480/488 env_steps=491520 loss=0.2674 pi=0.0032 v=0.5403 ent=0.2967 kl=-0.000919 lr=3.02222e-05 rew=0.0152 ep_ret10=35.3767 ep_len10=95.20 ep_succ10=0.4033
+[MAPPO] update=488/488 env_steps=499712 loss=0.3855 pi=0.0031 v=0.7770 ent=0.3061 kl=0.005937 lr=3e-05 rew=0.0153 ep_ret10=39.4867 ep_len10=105.60 ep_succ10=0.4533
+
+训练总结已保存到: /mnt/sdb11/HK/UAV_SFC_code/MAPPO/output/mappo_seed42_20260518_204735/log/summary.json
+总回合数: 4769
+总步数: 499712
+最佳成功率: 49.00%
+训练时长: 8828.3秒
+[MAPPO] training finished. checkpoint=/mnt/sdb11/HK/UAV_SFC_code/MAPPO/output/mappo_seed42_20260518_204735/checkpoint/policy_final.pt
+[MAPPO] training_log=/mnt/sdb11/HK/UAV_SFC_code/MAPPO/output/mappo_seed42_20260518_204735/log/training_log.csv
+[MAPPO] update_metrics=/mnt/sdb11/HK/UAV_SFC_code/MAPPO/output/mappo_seed42_20260518_204735/log/update_metrics.csv
+[MAPPO] episode_metrics=/mnt/sdb11/HK/UAV_SFC_code/MAPPO/output/mappo_seed42_20260518_204735/log/episode_metrics.csv
+[MAPPO] eval_metrics=/mnt/sdb11/HK/UAV_SFC_code/MAPPO/output/mappo_seed42_20260518_204735/log/eval_metrics.csv
+[MAPPO] summary=/mnt/sdb11/HK/UAV_SFC_code/MAPPO/output/mappo_seed42_20260518_204735/log/summary.json
+[MAPPO] logs saved to /mnt/sdb11/HK/UAV_SFC_code/MAPPO/output/mappo_seed42_20260518_204735/log/train_update_log.yaml

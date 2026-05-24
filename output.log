@@ -1,0 +1,48 @@
+nohup: 忽略输入
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+Users of this version of Gym should be able to simply replace 'import gym' with 'import gymnasium as gym' in the vast majority of cases.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+日志目录: /mnt/sdb11/HK/UAV_SFC_code/MAPPO/output/mappo_seed42_20260512_210153/log
+配置已保存到: /mnt/sdb11/HK/UAV_SFC_code/MAPPO/output/mappo_seed42_20260512_210153/log/config.json
+数据集已从 ./data/dataset_seed42_ep1_loc20_area1000_uav8_req30.pkl 加载
+  base_seed: 42
+  num_episodes: 1
+  num_locations: 20
+  area_size: 1000.0
+  num_uavs: 8
+  num_requests: 30
+训练日志: /mnt/sdb11/HK/UAV_SFC_code/MAPPO/output/mappo_seed42_20260512_210153/log/training_log.csv
+[MAPPO] update=1/195 env_steps=512 loss=3.1003 pi=-0.0066 v=6.2565 ent=1.0687 kl=0.009397 rew=0.1788 ep_ret10=27.2500 ep_len10=149.33 ep_succ10=0.3667
+[MAPPO] update=10/195 env_steps=5120 loss=0.6330 pi=-0.0041 v=1.3106 ent=0.9076 kl=0.009748 rew=0.1708 ep_ret10=20.6783 ep_len10=116.80 ep_succ10=0.2667
+[MAPPO] update=20/195 env_steps=10240 loss=0.7656 pi=0.0028 v=1.5673 ent=1.0448 kl=0.005612 rew=0.1670 ep_ret10=20.3550 ep_len10=108.00 ep_succ10=0.2600
+[MAPPO] update=30/195 env_steps=15360 loss=0.7895 pi=0.0040 v=1.6076 ent=0.9160 kl=0.011066 rew=0.1858 ep_ret10=22.3300 ep_len10=105.60 ep_succ10=0.2900
+[MAPPO] update=40/195 env_steps=20480 loss=1.2124 pi=0.0024 v=2.4582 ent=0.9535 kl=0.004670 rew=0.1935 ep_ret10=21.3033 ep_len10=106.40 ep_succ10=0.2767
+[MAPPO] update=50/195 env_steps=25600 loss=0.7786 pi=0.0061 v=1.5823 ent=0.9343 kl=0.011581 rew=0.1985 ep_ret10=22.1683 ep_len10=108.00 ep_succ10=0.2867
+[MAPPO] update=60/195 env_steps=30720 loss=1.3143 pi=0.0030 v=2.6564 ent=0.8471 kl=0.008481 rew=0.2483 ep_ret10=24.4767 ep_len10=106.40 ep_succ10=0.3233
+[MAPPO] update=70/195 env_steps=35840 loss=0.9597 pi=0.0046 v=1.9418 ent=0.7934 kl=0.021688 rew=0.1924 ep_ret10=22.9650 ep_len10=105.60 ep_succ10=0.3000
+[MAPPO] update=80/195 env_steps=40960 loss=1.8375 pi=-0.0011 v=3.7119 ent=0.8676 kl=0.004509 rew=0.2423 ep_ret10=25.3033 ep_len10=106.40 ep_succ10=0.3367
+[MAPPO] update=90/195 env_steps=46080 loss=0.7468 pi=0.0047 v=1.5188 ent=0.8620 kl=0.011464 rew=0.1840 ep_ret10=21.5350 ep_len10=106.40 ep_succ10=0.2800
+[MAPPO] update=100/195 env_steps=51200 loss=1.1293 pi=0.0148 v=2.2648 ent=0.8943 kl=0.008964 rew=0.2357 ep_ret10=24.3167 ep_len10=100.00 ep_succ10=0.3233
+[MAPPO] update=110/195 env_steps=56320 loss=1.3343 pi=0.0106 v=2.6733 ent=0.6515 kl=0.025047 rew=0.3027 ep_ret10=30.4500 ep_len10=100.80 ep_succ10=0.4200
+[MAPPO] update=120/195 env_steps=61440 loss=0.7951 pi=0.0056 v=1.6022 ent=0.5774 kl=0.027450 rew=0.2970 ep_ret10=29.6500 ep_len10=98.40 ep_succ10=0.4100
+[MAPPO] update=130/195 env_steps=66560 loss=1.0073 pi=0.0082 v=2.0230 ent=0.6205 kl=0.017118 rew=0.3148 ep_ret10=31.2567 ep_len10=96.00 ep_succ10=0.4333
+[MAPPO] update=140/195 env_steps=71680 loss=1.8117 pi=0.0039 v=3.6368 ent=0.5330 kl=0.015584 rew=0.3624 ep_ret10=30.9450 ep_len10=94.40 ep_succ10=0.4300
+[MAPPO] update=150/195 env_steps=76800 loss=0.8899 pi=0.0059 v=1.7885 ent=0.5097 kl=0.013868 rew=0.3150 ep_ret10=31.2817 ep_len10=98.40 ep_succ10=0.4333
+[MAPPO] update=160/195 env_steps=81920 loss=0.8873 pi=0.0060 v=1.7823 ent=0.4907 kl=0.013206 rew=0.3189 ep_ret10=30.5050 ep_len10=99.20 ep_succ10=0.4200
+[MAPPO] update=170/195 env_steps=87040 loss=0.9874 pi=0.0092 v=1.9742 ent=0.4474 kl=0.011567 rew=0.3525 ep_ret10=35.5300 ep_len10=98.40 ep_succ10=0.5000
+[MAPPO] update=180/195 env_steps=92160 loss=0.9380 pi=0.0038 v=1.8855 ent=0.4257 kl=0.011756 rew=0.3398 ep_ret10=36.8700 ep_len10=103.20 ep_succ10=0.5200
+[MAPPO] update=190/195 env_steps=97280 loss=0.5948 pi=0.0017 v=1.2024 ent=0.4100 kl=0.030946 rew=0.3521 ep_ret10=36.8483 ep_len10=104.80 ep_succ10=0.5167
+[MAPPO] update=195/195 env_steps=99840 loss=1.0583 pi=0.0079 v=2.1144 ent=0.3412 kl=0.016213 rew=0.3349 ep_ret10=39.8067 ep_len10=102.40 ep_succ10=0.5633
+
+训练总结已保存到: /mnt/sdb11/HK/UAV_SFC_code/MAPPO/output/mappo_seed42_20260512_210153/log/summary.json
+总回合数: 955
+总步数: 99840
+最佳成功率: 56.33%
+训练时长: 1598.7秒
+[MAPPO] training finished. checkpoint=/mnt/sdb11/HK/UAV_SFC_code/MAPPO/output/mappo_seed42_20260512_210153/checkpoint/policy_final.pt
+[MAPPO] training_log=/mnt/sdb11/HK/UAV_SFC_code/MAPPO/output/mappo_seed42_20260512_210153/log/training_log.csv
+[MAPPO] update_metrics=/mnt/sdb11/HK/UAV_SFC_code/MAPPO/output/mappo_seed42_20260512_210153/log/update_metrics.csv
+[MAPPO] episode_metrics=/mnt/sdb11/HK/UAV_SFC_code/MAPPO/output/mappo_seed42_20260512_210153/log/episode_metrics.csv
+[MAPPO] summary=/mnt/sdb11/HK/UAV_SFC_code/MAPPO/output/mappo_seed42_20260512_210153/log/summary.json
+[MAPPO] logs saved to /mnt/sdb11/HK/UAV_SFC_code/MAPPO/output/mappo_seed42_20260512_210153/log/train_update_log.yaml

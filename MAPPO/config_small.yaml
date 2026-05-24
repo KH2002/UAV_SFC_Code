@@ -1,0 +1,74 @@
+# MAPPO 小规模训练配置（仅保留当前代码会读取/生效的字段）
+
+# 场景参数（环境规模）
+scene:
+  area_size: 1000.0          # 区域边长（米）
+  num_locations: 20          # 任务位置数量
+  num_uavs: 8                # UAV 数量（Agent 数）
+  num_requests: 30           # SFC 请求数量
+  num_time_slots: 4          # 总时隙数
+  vnfs_per_request: 2        # 每个请求的 VNF 数（当前环境逻辑固定按 2 处理）
+
+# PPO 优化参数
+ppo:
+  lr: 0.0003                 # 学习率
+  gamma: 0.99                # 折扣因子
+  lambda: 0.95               # GAE lambda
+  epsilon: 0.2               # PPO clip epsilon
+  value_loss_coef: 0.5       # 价值损失权重
+  entropy_coef: 0.02         # 熵正则权重
+  max_grad_norm: 0.5         # 梯度裁剪
+  ppo_epochs: 4              # 每次更新的 PPO epoch 数
+  batch_size: 256             # mini-batch 大小
+
+# 网络结构参数
+network:
+  hidden_dim: 256            # 隐层宽度
+  num_heads: 8               # 注意力头数
+  num_encoder_layers: 2      # actor/critic 编码层数
+  dropout: 0.1               # dropout 比例
+
+# 训练流程参数
+training:
+  total_episodes: 3000       # 兼容字段：若没给 max_step，会用于估算总步数
+  max_step: 500000          # 训练总环境步数上限（优先于 total_episodes）
+  save_step: 100000          # 周期保存间隔（按 env_step）
+  total_timesteps: null      # 兼容旧字段（建议用 max_step）
+  rollout_steps: 1024        # 每次 PPO 更新前采样的环境步数
+  max_steps_per_episode: 200 # 单 episode 最大步数（环境 done 条件）
+  normalize_advantages: true # 是否标准化优势
+  use_reward_norm: true      # 是否启用奖励归一化（Running Mean/Std）
+  use_lr_schedule: true      # 是否启用学习率调度
+  lr_schedule: "cosine_warmup" # 先升后降：warmup + cosine 衰减
+  lr_warmup_ratio: 0.1       # warmup阶段占总更新步比例
+  lr_warmup_init_ratio: 0.2  # warmup起始学习率 = lr * 该比例
+  lr_min_ratio: 0.1          # 退火末端学习率 = lr * 该比例
+  eval_interval_steps: 50000 # 每 N 个 env_step 在 eval_data 上做一次 deterministic 评估
+  device: "cuda"              # 训练设备："cpu" 或 "cuda"
+
+# 环境奖励/约束参数
+env:
+  max_pending: 30            # 任务池最大可见请求数
+  max_steps_per_slot: 100    # 每个时隙最大 round 数
+  invalid_action_penalty: 0.1 # 非法动作惩罚
+  claim_reward: 0.05         # 合法认领 VNF 的 shaping 奖励
+  complete_sfc_reward: 2.0   # 完成一个 SFC 的奖励
+
+# 日志与输出参数
+logging:
+  output_dir: "./output"     # 输出根目录（会生成 output/mappo_<info>/{checkpoint,log}）
+  step_log: false            # 是否在控制台逐 step 打印
+  record_step_metrics: false # 是否写入 step_metrics.csv（大量日志，默认关闭）
+  log_interval_updates: 10   # 每多少个 update 打印一次汇总日志
+
+# 固定训练集参数（与 DRL/training/train.py 对齐）
+dataset:
+  base_seed: 42              # 数据集基础种子
+  num_episodes: 100          # 数据集 episode 数
+  data_dir: "./data"         # 数据集目录（与 DRL 共用）
+  eval:
+    base_seed: 100042        # 评估集基础种子（建议与训练集不同）
+    num_episodes: 10         # 评估集 episode 数
+    num_eval_episodes: 10    # 每次评估实际跑多少个 episode（<= num_episodes）
+    data_dir: "./eval_data"  # 评估集目录（不存在则生成，存在则加载）
+    force_regenerate: false  # 是否强制重建评估集

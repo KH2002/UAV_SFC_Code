@@ -1,0 +1,307 @@
+nohup: 忽略输入
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+Users of this version of Gym should be able to simply replace 'import gym' with 'import gymnasium as gym' in the vast majority of cases.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+日志目录: /mnt/sdb11/HK/UAV_SFC_code/MAPPO/output/mappo_curr_seed42_20260520_000254/log
+配置已保存到: /mnt/sdb11/HK/UAV_SFC_code/MAPPO/output/mappo_curr_seed42_20260520_000254/log/config.json
+数据集已从 ./eval_data/dataset_seed100042_ep10_loc20_area1000_uav8_req30.pkl 加载
+  base_seed: 100042
+  num_episodes: 10
+  num_locations: 20
+  area_size: 1000.0
+  num_uavs: 8
+  num_requests: 30
+[MAPPO] eval dataset ready: episodes=10 seed=100042 dir=./eval_data
+数据集已从 ./data/dataset_seed42_ep1_loc20_area1000_uav8_req30.pkl 加载
+  base_seed: 42
+  num_episodes: 1
+  num_locations: 20
+  area_size: 1000.0
+  num_uavs: 8
+  num_requests: 30
+[MAPPO][CUR] stage=1 train dataset ready: episodes=1 seed=42 dir=./data
+生成训练数据集 (base_seed=42, num_episodes=10)...
+  每个episode包含 8 个UAV 和 30 个请求
+  这可能需要一些时间，请耐心等待...
+  已生成 10/10 个回合 (100.0%)
+数据集生成完成！共 10 个回合
+数据集已保存到: ./data/dataset_seed42_ep10_loc20_area1000_uav8_req30.pkl
+[MAPPO][CUR] stage=2 train dataset ready: episodes=10 seed=42 dir=./data
+生成训练数据集 (base_seed=42, num_episodes=50)...
+  每个episode包含 8 个UAV 和 30 个请求
+  这可能需要一些时间，请耐心等待...
+  已生成 10/50 个回合 (20.0%)
+  已生成 20/50 个回合 (40.0%)
+  已生成 30/50 个回合 (60.0%)
+  已生成 40/50 个回合 (80.0%)
+  已生成 50/50 个回合 (100.0%)
+数据集生成完成！共 50 个回合
+数据集已保存到: ./data/dataset_seed42_ep50_loc20_area1000_uav8_req30.pkl
+[MAPPO][CUR] stage=3 train dataset ready: episodes=50 seed=42 dir=./data
+数据集已从 ./data/dataset_seed42_ep100_loc20_area1000_uav8_req30.pkl 加载
+  base_seed: 42
+  num_episodes: 100
+  num_locations: 20
+  area_size: 1000.0
+  num_uavs: 8
+  num_requests: 30
+[MAPPO][CUR] stage=4 train dataset ready: episodes=100 seed=42 dir=./data
+[MAPPO][CUR] stage=1/4 dataset_episodes=1 stage_steps=300000 stage_updates=292
+训练日志: /mnt/sdb11/HK/UAV_SFC_code/MAPPO/output/mappo_curr_seed42_20260520_000254/log/training_log.csv
+[MAPPO] update=1/292 env_steps=1024 loss=3.0912 pi=0.0091 v=6.1995 ent=0.8799 kl=0.081889 lr=6e-05 rew=-0.0318 ep_ret10=21.8917 ep_len10=157.33 ep_succ10=0.2333
+[MAPPO] update=10/292 env_steps=10240 loss=1.1350 pi=0.0068 v=2.2913 ent=0.8768 kl=0.032002 lr=0.000137143 rew=0.0464 ep_ret10=23.9033 ep_len10=108.00 ep_succ10=0.2567
+[MAPPO] update=20/292 env_steps=20480 loss=0.9020 pi=0.0051 v=1.8270 ent=0.8323 kl=0.025712 lr=0.000222857 rew=0.0131 ep_ret10=24.4167 ep_len10=105.60 ep_succ10=0.2633
+[MAPPO] update=30/292 env_steps=30720 loss=1.0679 pi=0.0029 v=2.1602 ent=0.7509 kl=0.012778 lr=0.0003 rew=0.0659 ep_ret10=31.1000 ep_len10=98.40 ep_succ10=0.3500
+[MAPPO] update=40/292 env_steps=40960 loss=0.7117 pi=0.0022 v=1.4435 ent=0.6141 kl=0.024251 lr=0.000299031 rew=0.0678 ep_ret10=34.5367 ep_len10=98.40 ep_succ10=0.3933
+[MAPPO][EVAL] env_steps=50176 target=50000 episodes=10 succ=0.3167 ret=28.5783
+[MAPPO] update=50/292 env_steps=51200 loss=0.5930 pi=-0.0018 v=1.2120 ent=0.5558 kl=0.019489 lr=0.000296137 rew=0.0675 ep_ret10=39.0550 ep_len10=100.80 ep_succ10=0.4500
+[MAPPO] update=60/292 env_steps=61440 loss=0.5537 pi=0.0047 v=1.1192 ent=0.5313 kl=0.031069 lr=0.000291359 rew=0.0493 ep_ret10=38.7033 ep_len10=100.00 ep_succ10=0.4467
+[MAPPO] update=70/292 env_steps=71680 loss=0.3535 pi=-0.0052 v=0.7374 ent=0.5024 kl=0.062400 lr=0.000284767 rew=0.0629 ep_ret10=41.9850 ep_len10=97.60 ep_succ10=0.4900
+[MAPPO] update=80/292 env_steps=81920 loss=0.3220 pi=-0.0045 v=0.6713 ent=0.4568 kl=0.010824 lr=0.000276455 rew=0.1077 ep_ret10=44.5217 ep_len10=82.40 ep_succ10=0.5233
+[MAPPO] update=90/292 env_steps=92160 loss=0.2662 pi=0.0004 v=0.5487 ent=0.4285 kl=0.013594 lr=0.000266543 rew=0.1175 ep_ret10=46.9217 ep_len10=78.40 ep_succ10=0.5533
+[MAPPO][EVAL] env_steps=100352 target=100000 episodes=10 succ=0.3000 ret=27.2750
+[MAPPO] update=100/292 env_steps=102400 loss=0.2517 pi=0.0007 v=0.5187 ent=0.4220 kl=0.014813 lr=0.000255172 rew=0.0930 ep_ret10=47.4200 ep_len10=84.80 ep_succ10=0.5600
+[MAPPO] update=110/292 env_steps=112640 loss=0.2856 pi=0.0027 v=0.5815 ent=0.3924 kl=0.005873 lr=0.000242506 rew=0.0861 ep_ret10=48.2250 ep_len10=84.00 ep_succ10=0.5700
+[MAPPO] update=120/292 env_steps=122880 loss=0.1794 pi=0.0004 v=0.3733 ent=0.3783 kl=0.014097 lr=0.000228728 rew=0.0933 ep_ret10=49.2017 ep_len10=77.60 ep_succ10=0.5833
+[MAPPO] update=130/292 env_steps=133120 loss=0.2604 pi=-0.0007 v=0.5364 ent=0.3553 kl=0.010853 lr=0.000214034 rew=0.0826 ep_ret10=49.4383 ep_len10=77.60 ep_succ10=0.5867
+[MAPPO] update=140/292 env_steps=143360 loss=0.2718 pi=-0.0003 v=0.5574 ent=0.3265 kl=0.012796 lr=0.000198636 rew=0.0828 ep_ret10=47.8433 ep_len10=72.80 ep_succ10=0.5667
+[MAPPO][EVAL] env_steps=150528 target=150000 episodes=10 succ=0.3000 ret=27.2550
+[MAPPO] update=150/292 env_steps=153600 loss=0.2009 pi=0.0022 v=0.4112 ent=0.3443 kl=0.007067 lr=0.000182755 rew=0.0853 ep_ret10=48.3567 ep_len10=71.20 ep_succ10=0.5733
+[MAPPO] update=160/292 env_steps=163840 loss=0.1731 pi=0.0014 v=0.3561 ent=0.3170 kl=0.019999 lr=0.000166619 rew=0.0715 ep_ret10=47.2250 ep_len10=72.80 ep_succ10=0.5600
+[MAPPO] update=170/292 env_steps=174080 loss=0.1324 pi=-0.0003 v=0.2785 ent=0.3264 kl=0.003380 lr=0.000150459 rew=0.0863 ep_ret10=48.5933 ep_len10=70.40 ep_succ10=0.5767
+[MAPPO] update=180/292 env_steps=184320 loss=0.3123 pi=-0.0014 v=0.6398 ent=0.3082 kl=0.015549 lr=0.000134509 rew=0.0594 ep_ret10=47.3100 ep_len10=73.60 ep_succ10=0.5600
+[MAPPO] update=190/292 env_steps=194560 loss=0.0861 pi=0.0002 v=0.1840 ent=0.3086 kl=0.003320 lr=0.000118996 rew=0.0840 ep_ret10=47.9950 ep_len10=65.60 ep_succ10=0.5700
+[MAPPO][EVAL] env_steps=200704 target=200000 episodes=10 succ=0.3333 ret=30.0817
+[MAPPO] update=200/292 env_steps=204800 loss=0.1229 pi=0.0010 v=0.2552 ent=0.2819 kl=0.010209 lr=0.000104144 rew=0.0721 ep_ret10=48.5733 ep_len10=68.00 ep_succ10=0.5767
+[MAPPO] update=210/292 env_steps=215040 loss=0.0536 pi=-0.0001 v=0.1183 ent=0.2745 kl=0.003465 lr=9.01663e-05 rew=0.0773 ep_ret10=47.9900 ep_len10=64.80 ep_succ10=0.5700
+[MAPPO] update=220/292 env_steps=225280 loss=0.0862 pi=-0.0007 v=0.1854 ent=0.2855 kl=0.005780 lr=7.7263e-05 rew=0.0720 ep_ret10=48.0050 ep_len10=67.20 ep_succ10=0.5700
+[MAPPO] update=230/292 env_steps=235520 loss=0.1219 pi=-0.0026 v=0.2603 ent=0.2829 kl=0.008037 lr=6.56196e-05 rew=0.0592 ep_ret10=48.2617 ep_len10=68.80 ep_succ10=0.5733
+[MAPPO] update=240/292 env_steps=245760 loss=0.0347 pi=-0.0011 v=0.0834 ent=0.2925 kl=0.005618 lr=5.54034e-05 rew=0.0643 ep_ret10=48.0000 ep_len10=64.80 ep_succ10=0.5700
+[MAPPO][EVAL] env_steps=250880 target=250000 episodes=10 succ=0.2900 ret=26.4950
+[MAPPO] update=250/292 env_steps=256000 loss=0.0585 pi=-0.0012 v=0.1304 ent=0.2769 kl=0.006948 lr=4.6761e-05 rew=0.0682 ep_ret10=47.7433 ep_len10=64.80 ep_succ10=0.5667
+[MAPPO] update=260/292 env_steps=266240 loss=0.0297 pi=-0.0013 v=0.0733 ent=0.2821 kl=0.007108 lr=3.98167e-05 rew=0.0647 ep_ret10=47.7133 ep_len10=64.00 ep_succ10=0.5667
+[MAPPO] update=270/292 env_steps=276480 loss=0.0747 pi=-0.0002 v=0.1611 ent=0.2813 kl=0.008084 lr=3.46701e-05 rew=0.0592 ep_ret10=48.2717 ep_len10=67.20 ep_succ10=0.5733
+[MAPPO] update=280/292 env_steps=286720 loss=0.0363 pi=0.0019 v=0.0799 ent=0.2760 kl=0.005811 lr=3.13951e-05 rew=0.0559 ep_ret10=47.7033 ep_len10=64.00 ep_succ10=0.5667
+[MAPPO] update=290/292 env_steps=296960 loss=0.0746 pi=0.0019 v=0.1566 ent=0.2774 kl=0.005917 lr=3.00388e-05 rew=0.0486 ep_ret10=48.0100 ep_len10=65.60 ep_succ10=0.5700
+[MAPPO] update=292/292 env_steps=299008 loss=0.0722 pi=0.0003 v=0.1548 ent=0.2746 kl=0.002737 lr=3e-05 rew=0.0516 ep_ret10=47.7383 ep_len10=66.40 ep_succ10=0.5667
+[MAPPO][CUR] stage=2/4 dataset_episodes=10 stage_steps=400000 stage_updates=390
+[MAPPO][EVAL] env_steps=300032 target=300000 episodes=10 succ=0.3033 ret=27.5367
+[MAPPO] update=1/390 env_steps=1024 loss=0.8948 pi=0.0069 v=1.7872 ent=0.2855 kl=0.011205 lr=6e-05 rew=-0.0906 ep_ret10=35.6733 ep_len10=104.00 ep_succ10=0.3667
+[MAPPO] update=10/390 env_steps=10240 loss=0.2207 pi=0.0070 v=0.4382 ent=0.2698 kl=0.011860 lr=0.000116842 rew=-0.1001 ep_ret10=30.2450 ep_len10=100.00 ep_succ10=0.3400
+[MAPPO] update=20/390 env_steps=20480 loss=0.1890 pi=-0.0005 v=0.3900 ent=0.2737 kl=0.015074 lr=0.00018 rew=-0.0925 ep_ret10=32.2117 ep_len10=99.20 ep_succ10=0.3633
+[MAPPO] update=30/390 env_steps=30720 loss=0.2396 pi=0.0064 v=0.4787 ent=0.3074 kl=0.010394 lr=0.000243158 rew=-0.0801 ep_ret10=33.5650 ep_len10=98.40 ep_succ10=0.3800
+[MAPPO] update=40/390 env_steps=40960 loss=0.2857 pi=0.0050 v=0.5773 ent=0.3963 kl=0.018816 lr=0.0003 rew=-0.0920 ep_ret10=32.3417 ep_len10=101.60 ep_succ10=0.3633
+[MAPPO][EVAL] env_steps=350208 target=350000 episodes=10 succ=0.3800 ret=33.6700
+[MAPPO] update=50/390 env_steps=51200 loss=0.1899 pi=-0.0010 v=0.3967 ent=0.3739 kl=0.012283 lr=0.000299457 rew=-0.0740 ep_ret10=34.6617 ep_len10=97.60 ep_succ10=0.3933
+[MAPPO] update=60/390 env_steps=61440 loss=0.1559 pi=-0.0012 v=0.3324 ent=0.4554 kl=0.035057 lr=0.00029783 rew=-0.0862 ep_ret10=32.9250 ep_len10=100.00 ep_succ10=0.3700
+[MAPPO] update=70/390 env_steps=71680 loss=0.2506 pi=0.0032 v=0.5114 ent=0.4162 kl=0.031516 lr=0.000295135 rew=-0.0882 ep_ret10=31.6533 ep_len10=101.60 ep_succ10=0.3567
+[MAPPO] update=80/390 env_steps=81920 loss=0.2008 pi=0.0021 v=0.4137 ent=0.4097 kl=0.017160 lr=0.000291392 rew=-0.0582 ep_ret10=34.6833 ep_len10=92.00 ep_succ10=0.3967
+[MAPPO] update=90/390 env_steps=92160 loss=0.1657 pi=0.0059 v=0.3365 ent=0.4214 kl=0.018960 lr=0.000286631 rew=-0.0736 ep_ret10=33.4650 ep_len10=96.00 ep_succ10=0.3800
+[MAPPO][EVAL] env_steps=400384 target=400000 episodes=10 succ=0.4500 ret=39.1000
+[MAPPO] update=100/390 env_steps=102400 loss=0.1757 pi=0.0003 v=0.3665 ent=0.3908 kl=0.022356 lr=0.000280891 rew=-0.0445 ep_ret10=36.1067 ep_len10=92.80 ep_succ10=0.4133
+[MAPPO] update=110/390 env_steps=112640 loss=0.1393 pi=0.0028 v=0.2884 ent=0.3832 kl=0.029081 lr=0.000274217 rew=-0.0717 ep_ret10=33.1883 ep_len10=95.20 ep_succ10=0.3767
+[MAPPO] update=120/390 env_steps=122880 loss=0.2077 pi=-0.0026 v=0.4363 ent=0.3937 kl=0.018898 lr=0.000266665 rew=-0.0597 ep_ret10=34.7483 ep_len10=94.40 ep_succ10=0.3967
+[MAPPO] update=130/390 env_steps=133120 loss=0.1599 pi=0.0007 v=0.3345 ent=0.3997 kl=0.011903 lr=0.000258293 rew=-0.0400 ep_ret10=36.0367 ep_len10=89.60 ep_succ10=0.4133
+[MAPPO] update=140/390 env_steps=143360 loss=0.2118 pi=0.0000 v=0.4377 ent=0.3547 kl=0.009259 lr=0.000249171 rew=-0.0426 ep_ret10=36.9417 ep_len10=93.60 ep_succ10=0.4233
+[MAPPO][EVAL] env_steps=450560 target=450000 episodes=10 succ=0.4400 ret=38.3600
+[MAPPO] update=150/390 env_steps=153600 loss=0.1885 pi=-0.0013 v=0.3937 ent=0.3567 kl=0.012570 lr=0.000239371 rew=-0.0386 ep_ret10=39.3617 ep_len10=96.80 ep_succ10=0.4533
+[MAPPO] update=160/390 env_steps=163840 loss=0.1562 pi=-0.0026 v=0.3323 ent=0.3678 kl=0.014306 lr=0.000228972 rew=-0.0496 ep_ret10=36.9017 ep_len10=95.20 ep_succ10=0.4233
+[MAPPO] update=170/390 env_steps=174080 loss=0.2130 pi=0.0018 v=0.4361 ent=0.3434 kl=0.010773 lr=0.000218058 rew=-0.0492 ep_ret10=37.7217 ep_len10=100.00 ep_succ10=0.4333
+[MAPPO] update=180/390 env_steps=184320 loss=0.1751 pi=0.0006 v=0.3625 ent=0.3396 kl=0.008056 lr=0.000206717 rew=-0.0505 ep_ret10=37.2533 ep_len10=99.20 ep_succ10=0.4267
+[MAPPO] update=190/390 env_steps=194560 loss=0.1500 pi=-0.0014 v=0.3160 ent=0.3296 kl=0.011538 lr=0.00019504 rew=-0.0374 ep_ret10=38.2350 ep_len10=93.60 ep_succ10=0.4400
+[MAPPO][EVAL] env_steps=500736 target=500000 episodes=10 succ=0.4167 ret=36.4833
+[MAPPO] update=200/390 env_steps=204800 loss=0.3112 pi=-0.0009 v=0.6367 ent=0.3173 kl=0.002821 lr=0.000183121 rew=-0.0610 ep_ret10=37.1117 ep_len10=105.60 ep_succ10=0.4233
+[MAPPO] update=210/390 env_steps=215040 loss=0.1525 pi=0.0012 v=0.3163 ent=0.3391 kl=0.011206 lr=0.000171057 rew=-0.0293 ep_ret10=39.3467 ep_len10=92.00 ep_succ10=0.4533
+[MAPPO] update=220/390 env_steps=225280 loss=0.2344 pi=0.0070 v=0.4697 ent=0.3702 kl=0.018175 lr=0.000158943 rew=-0.0322 ep_ret10=35.8200 ep_len10=86.40 ep_succ10=0.4100
+[MAPPO] update=230/390 env_steps=235520 loss=0.2046 pi=0.0026 v=0.4182 ent=0.3517 kl=0.014106 lr=0.000146879 rew=-0.0457 ep_ret10=37.5700 ep_len10=95.20 ep_succ10=0.4300
+[MAPPO] update=240/390 env_steps=245760 loss=0.1828 pi=0.0089 v=0.3619 ent=0.3525 kl=0.015888 lr=0.00013496 rew=-0.0311 ep_ret10=37.7767 ep_len10=91.20 ep_succ10=0.4333
+[MAPPO][EVAL] env_steps=550912 target=550000 episodes=10 succ=0.4333 ret=37.8817
+[MAPPO] update=250/390 env_steps=256000 loss=0.2065 pi=0.0038 v=0.4199 ent=0.3631 kl=0.009833 lr=0.000123283 rew=-0.0176 ep_ret10=39.3367 ep_len10=88.00 ep_succ10=0.4533
+[MAPPO] update=260/390 env_steps=266240 loss=0.2228 pi=0.0027 v=0.4532 ent=0.3226 kl=0.011901 lr=0.000111942 rew=-0.0325 ep_ret10=39.3417 ep_len10=98.40 ep_succ10=0.4533
+[MAPPO] update=270/390 env_steps=276480 loss=0.1328 pi=0.0044 v=0.2698 ent=0.3252 kl=0.008583 lr=0.000101028 rew=-0.0242 ep_ret10=39.8550 ep_len10=94.40 ep_succ10=0.4600
+[MAPPO] update=280/390 env_steps=286720 loss=0.1463 pi=0.0036 v=0.2987 ent=0.3333 kl=0.008531 lr=9.06289e-05 rew=-0.0258 ep_ret10=39.9250 ep_len10=91.20 ep_succ10=0.4600
+[MAPPO] update=290/390 env_steps=296960 loss=0.1454 pi=0.0031 v=0.2981 ent=0.3374 kl=0.007277 lr=8.08289e-05 rew=-0.0285 ep_ret10=38.2400 ep_len10=91.20 ep_succ10=0.4400
+[MAPPO][EVAL] env_steps=600064 target=600000 episodes=10 succ=0.4233 ret=37.0517
+[MAPPO] update=300/390 env_steps=307200 loss=0.1310 pi=0.0020 v=0.2714 ent=0.3364 kl=0.009727 lr=7.17065e-05 rew=-0.0214 ep_ret10=38.7833 ep_len10=88.80 ep_succ10=0.4467
+[MAPPO] update=310/390 env_steps=317440 loss=0.1693 pi=0.0082 v=0.3357 ent=0.3381 kl=0.008920 lr=6.33354e-05 rew=-0.0237 ep_ret10=39.0350 ep_len10=92.80 ep_succ10=0.4500
+[MAPPO] update=320/390 env_steps=327680 loss=0.1765 pi=0.0025 v=0.3611 ent=0.3281 kl=0.017058 lr=5.57827e-05 rew=-0.0245 ep_ret10=39.3717 ep_len10=92.80 ep_succ10=0.4533
+[MAPPO] update=330/390 env_steps=337920 loss=0.2486 pi=0.0029 v=0.5041 ent=0.3179 kl=0.008905 lr=4.91094e-05 rew=-0.0389 ep_ret10=37.4750 ep_len10=96.80 ep_succ10=0.4300
+[MAPPO] update=340/390 env_steps=348160 loss=0.1497 pi=0.0014 v=0.3092 ent=0.3178 kl=0.010799 lr=4.33692e-05 rew=-0.0205 ep_ret10=40.0867 ep_len10=93.60 ep_succ10=0.4633
+[MAPPO][EVAL] env_steps=650240 target=650000 episodes=10 succ=0.4100 ret=35.9700
+[MAPPO] update=350/390 env_steps=358400 loss=0.1656 pi=-0.0007 v=0.3456 ent=0.3261 kl=0.008905 lr=3.86083e-05 rew=-0.0238 ep_ret10=39.0250 ep_len10=93.60 ep_succ10=0.4500
+[MAPPO] update=360/390 env_steps=368640 loss=0.1723 pi=0.0083 v=0.3410 ent=0.3234 kl=0.013448 lr=3.4865e-05 rew=-0.0269 ep_ret10=38.2400 ep_len10=90.40 ep_succ10=0.4400
+[MAPPO] update=370/390 env_steps=378880 loss=0.1737 pi=0.0060 v=0.3481 ent=0.3148 kl=0.009460 lr=3.21695e-05 rew=-0.0172 ep_ret10=40.4533 ep_len10=93.60 ep_succ10=0.4667
+[MAPPO] update=380/390 env_steps=389120 loss=0.1818 pi=0.0025 v=0.3717 ent=0.3292 kl=0.008693 lr=3.05435e-05 rew=-0.0146 ep_ret10=40.6450 ep_len10=92.80 ep_succ10=0.4700
+[MAPPO] update=390/390 env_steps=399360 loss=0.1832 pi=0.0029 v=0.3728 ent=0.3051 kl=0.010630 lr=3e-05 rew=-0.0296 ep_ret10=37.6617 ep_len10=88.80 ep_succ10=0.4333
+[MAPPO][CUR] stage=3/4 dataset_episodes=50 stage_steps=500000 stage_updates=488
+[MAPPO] update=1/488 env_steps=1024 loss=0.1931 pi=0.0065 v=0.3862 ent=0.3250 kl=0.007407 lr=6e-05 rew=-0.0248 ep_ret10=38.2500 ep_len10=92.80 ep_succ10=0.4400
+[MAPPO][EVAL] env_steps=700416 target=700000 episodes=10 succ=0.4167 ret=36.5033
+[MAPPO] update=10/488 env_steps=10240 loss=0.2184 pi=0.0018 v=0.4458 ent=0.3153 kl=0.011467 lr=0.000105 rew=-0.0517 ep_ret10=36.0550 ep_len10=104.00 ep_succ10=0.4100
+[MAPPO] update=20/488 env_steps=20480 loss=0.2719 pi=0.0036 v=0.5492 ent=0.3125 kl=0.007472 lr=0.000155 rew=-0.0480 ep_ret10=38.7517 ep_len10=108.80 ep_succ10=0.4433
+[MAPPO] update=30/488 env_steps=30720 loss=0.2169 pi=-0.0014 v=0.4498 ent=0.3292 kl=0.012791 lr=0.000205 rew=-0.0549 ep_ret10=34.6767 ep_len10=104.80 ep_succ10=0.3933
+[MAPPO] update=40/488 env_steps=40960 loss=0.2555 pi=-0.0008 v=0.5249 ent=0.3106 kl=0.008815 lr=0.000255 rew=-0.0524 ep_ret10=37.0567 ep_len10=108.80 ep_succ10=0.4233
+[MAPPO] update=50/488 env_steps=51200 loss=0.2448 pi=0.0047 v=0.4927 ent=0.3114 kl=0.006435 lr=0.0003 rew=-0.0665 ep_ret10=35.1550 ep_len10=106.40 ep_succ10=0.4000
+[MAPPO][EVAL] env_steps=750592 target=750000 episodes=10 succ=0.4400 ret=38.3800
+[MAPPO] update=60/488 env_steps=61440 loss=0.2165 pi=0.0031 v=0.4394 ent=0.3141 kl=0.008367 lr=0.000299653 rew=-0.0468 ep_ret10=38.3150 ep_len10=106.40 ep_succ10=0.4400
+[MAPPO] update=70/488 env_steps=71680 loss=0.2149 pi=0.0053 v=0.4319 ent=0.3182 kl=0.013180 lr=0.000298613 rew=-0.0440 ep_ret10=38.7167 ep_len10=109.60 ep_succ10=0.4433
+[MAPPO] update=80/488 env_steps=81920 loss=0.2039 pi=0.0025 v=0.4158 ent=0.3261 kl=0.020385 lr=0.000296887 rew=-0.0349 ep_ret10=41.0417 ep_len10=107.20 ep_succ10=0.4733
+[MAPPO] update=90/488 env_steps=92160 loss=0.2370 pi=0.0031 v=0.4804 ent=0.3109 kl=0.011946 lr=0.000294482 rew=-0.0529 ep_ret10=37.4350 ep_len10=101.60 ep_succ10=0.4300
+[MAPPO][EVAL] env_steps=800768 target=800000 episodes=10 succ=0.4333 ret=37.8567
+[MAPPO] update=100/488 env_steps=102400 loss=0.2088 pi=0.0007 v=0.4297 ent=0.3364 kl=0.012886 lr=0.000291411 rew=-0.0314 ep_ret10=39.9050 ep_len10=104.00 ep_succ10=0.4600
+[MAPPO] update=110/488 env_steps=112640 loss=0.2380 pi=-0.0015 v=0.4913 ent=0.3028 kl=0.013491 lr=0.00028769 rew=-0.0400 ep_ret10=38.3050 ep_len10=105.60 ep_succ10=0.4400
+[MAPPO] update=120/488 env_steps=122880 loss=0.2017 pi=-0.0005 v=0.4165 ent=0.3003 kl=0.011972 lr=0.000283339 rew=-0.0427 ep_ret10=39.4667 ep_len10=109.60 ep_succ10=0.4533
+[MAPPO] update=130/488 env_steps=133120 loss=0.2373 pi=-0.0001 v=0.4872 ent=0.3071 kl=0.010675 lr=0.000278378 rew=-0.0413 ep_ret10=39.4817 ep_len10=107.20 ep_succ10=0.4533
+[MAPPO] update=140/488 env_steps=143360 loss=0.1748 pi=0.0007 v=0.3603 ent=0.3022 kl=0.012938 lr=0.000272835 rew=-0.0374 ep_ret10=39.1900 ep_len10=105.60 ep_succ10=0.4500
+[MAPPO][EVAL] env_steps=850944 target=850000 episodes=10 succ=0.4500 ret=39.2150
+[MAPPO] update=150/488 env_steps=153600 loss=0.1743 pi=-0.0023 v=0.3650 ent=0.2934 kl=0.009467 lr=0.000266737 rew=-0.0388 ep_ret10=38.4400 ep_len10=108.00 ep_succ10=0.4400
+[MAPPO] update=160/488 env_steps=163840 loss=0.2163 pi=0.0023 v=0.4394 ent=0.2838 kl=0.005726 lr=0.000260116 rew=-0.0564 ep_ret10=34.9933 ep_len10=112.80 ep_succ10=0.3967
+[MAPPO] update=170/488 env_steps=174080 loss=0.1280 pi=-0.0043 v=0.2761 ent=0.2894 kl=0.016585 lr=0.000253006 rew=-0.0433 ep_ret10=36.5683 ep_len10=100.00 ep_succ10=0.4167
+[MAPPO] update=180/488 env_steps=184320 loss=0.1925 pi=0.0038 v=0.3888 ent=0.2845 kl=0.010398 lr=0.000245444 rew=-0.0582 ep_ret10=36.2717 ep_len10=108.00 ep_succ10=0.4133
+[MAPPO] update=190/488 env_steps=194560 loss=0.2259 pi=0.0012 v=0.4606 ent=0.2789 kl=0.007888 lr=0.000237467 rew=-0.0570 ep_ret10=34.8533 ep_len10=106.40 ep_succ10=0.3967
+[MAPPO][EVAL] env_steps=900096 target=900000 episodes=10 succ=0.4367 ret=38.1283
+[MAPPO] update=200/488 env_steps=204800 loss=0.1666 pi=-0.0036 v=0.3514 ent=0.2787 kl=0.017287 lr=0.000229118 rew=-0.0271 ep_ret10=39.0850 ep_len10=100.00 ep_succ10=0.4500
+[MAPPO] update=210/488 env_steps=215040 loss=0.2111 pi=0.0025 v=0.4286 ent=0.2811 kl=0.014263 lr=0.00022044 rew=-0.0507 ep_ret10=35.1300 ep_len10=105.60 ep_succ10=0.4000
+[MAPPO] update=220/488 env_steps=225280 loss=0.1429 pi=-0.0009 v=0.2980 ent=0.2608 kl=0.008755 lr=0.000211476 rew=-0.0371 ep_ret10=38.6067 ep_len10=105.60 ep_succ10=0.4433
+[MAPPO] update=230/488 env_steps=235520 loss=0.1692 pi=0.0029 v=0.3439 ent=0.2805 kl=0.010242 lr=0.000202273 rew=-0.0385 ep_ret10=36.6600 ep_len10=100.00 ep_succ10=0.4200
+[MAPPO] update=240/488 env_steps=245760 loss=0.1767 pi=0.0015 v=0.3616 ent=0.2797 kl=0.003380 lr=0.000192879 rew=-0.0241 ep_ret10=39.9300 ep_len10=102.40 ep_succ10=0.4600
+[MAPPO][EVAL] env_steps=950272 target=950000 episodes=10 succ=0.4167 ret=36.5083
+[MAPPO] update=250/488 env_steps=256000 loss=0.1579 pi=0.0009 v=0.3247 ent=0.2654 kl=0.007078 lr=0.000183341 rew=-0.0287 ep_ret10=39.4267 ep_len10=100.80 ep_succ10=0.4533
+[MAPPO] update=260/488 env_steps=266240 loss=0.1496 pi=0.0000 v=0.3101 ent=0.2760 kl=0.007599 lr=0.000173709 rew=-0.0353 ep_ret10=39.1800 ep_len10=105.60 ep_succ10=0.4500
+[MAPPO] update=270/488 env_steps=276480 loss=0.1522 pi=-0.0000 v=0.3156 ent=0.2785 kl=0.003395 lr=0.000164032 rew=-0.0186 ep_ret10=41.0717 ep_len10=104.00 ep_succ10=0.4733
+[MAPPO] update=280/488 env_steps=286720 loss=0.1763 pi=0.0092 v=0.3460 ent=0.2954 kl=0.007764 lr=0.00015436 rew=-0.0178 ep_ret10=40.1717 ep_len10=98.40 ep_succ10=0.4633
+[MAPPO] update=290/488 env_steps=296960 loss=0.1561 pi=0.0041 v=0.3151 ent=0.2782 kl=0.012147 lr=0.000144743 rew=-0.0182 ep_ret10=40.4783 ep_len10=101.60 ep_succ10=0.4667
+[MAPPO][EVAL] env_steps=1000448 target=1000000 episodes=10 succ=0.4267 ret=37.3433
+[MAPPO] update=300/488 env_steps=307200 loss=0.1732 pi=-0.0002 v=0.3579 ent=0.2773 kl=0.007374 lr=0.000135229 rew=-0.0334 ep_ret10=36.3633 ep_len10=98.40 ep_succ10=0.4167
+[MAPPO] update=310/488 env_steps=317440 loss=0.1738 pi=-0.0018 v=0.3620 ent=0.2738 kl=0.009417 lr=0.000125869 rew=-0.0355 ep_ret10=37.8067 ep_len10=104.80 ep_succ10=0.4333
+[MAPPO] update=320/488 env_steps=327680 loss=0.1553 pi=-0.0005 v=0.3231 ent=0.2872 kl=0.008341 lr=0.000116711 rew=-0.0239 ep_ret10=39.8700 ep_len10=102.40 ep_succ10=0.4600
+[MAPPO] update=330/488 env_steps=337920 loss=0.1616 pi=0.0021 v=0.3305 ent=0.2908 kl=0.011166 lr=0.0001078 rew=-0.0166 ep_ret10=38.2100 ep_len10=92.00 ep_succ10=0.4400
+[MAPPO] update=340/488 env_steps=348160 loss=0.1935 pi=0.0014 v=0.3954 ent=0.2789 kl=0.005176 lr=9.9184e-05 rew=-0.0087 ep_ret10=42.0233 ep_len10=101.60 ep_succ10=0.4867
+[MAPPO][EVAL] env_steps=1050624 target=1050000 episodes=10 succ=0.4467 ret=38.9683
+[MAPPO] update=350/488 env_steps=358400 loss=0.1653 pi=0.0021 v=0.3374 ent=0.2787 kl=0.007619 lr=9.09062e-05 rew=-0.0199 ep_ret10=39.1400 ep_len10=99.20 ep_succ10=0.4500
+[MAPPO] update=360/488 env_steps=368640 loss=0.1653 pi=0.0003 v=0.3414 ent=0.2850 kl=0.013030 lr=8.30094e-05 rew=-0.0293 ep_ret10=35.8250 ep_len10=98.40 ep_succ10=0.4100
+[MAPPO] update=370/488 env_steps=378880 loss=0.1673 pi=0.0021 v=0.3430 ent=0.3096 kl=0.005923 lr=7.55342e-05 rew=-0.0158 ep_ret10=38.6067 ep_len10=96.80 ep_succ10=0.4433
+[MAPPO] update=380/488 env_steps=389120 loss=0.1644 pi=0.0032 v=0.3346 ent=0.3057 kl=0.012177 lr=6.85191e-05 rew=-0.0055 ep_ret10=39.6383 ep_len10=96.80 ep_succ10=0.4567
+[MAPPO] update=390/488 env_steps=399360 loss=0.1849 pi=0.0023 v=0.3770 ent=0.2960 kl=0.010419 lr=6.20001e-05 rew=-0.0085 ep_ret10=41.1983 ep_len10=97.60 ep_succ10=0.4767
+[MAPPO][EVAL] env_steps=1100800 target=1100000 episodes=10 succ=0.4467 ret=38.9583
+[MAPPO] update=400/488 env_steps=409600 loss=0.2011 pi=0.0032 v=0.4078 ent=0.3002 kl=0.005322 lr=5.60108e-05 rew=-0.0102 ep_ret10=40.4783 ep_len10=98.40 ep_succ10=0.4667
+[MAPPO] update=410/488 env_steps=419840 loss=0.1813 pi=0.0002 v=0.3745 ent=0.3077 kl=0.002560 lr=5.0582e-05 rew=-0.0051 ep_ret10=41.0667 ep_len10=96.00 ep_succ10=0.4733
+[MAPPO] update=420/488 env_steps=430080 loss=0.1766 pi=0.0021 v=0.3606 ent=0.2903 kl=0.007460 lr=4.57415e-05 rew=-0.0077 ep_ret10=39.6433 ep_len10=95.20 ep_succ10=0.4567
+[MAPPO] update=430/488 env_steps=440320 loss=0.2460 pi=0.0009 v=0.5027 ent=0.3082 kl=0.009760 lr=4.15143e-05 rew=-0.0170 ep_ret10=39.7183 ep_len10=100.00 ep_succ10=0.4567
+[MAPPO] update=440/488 env_steps=450560 loss=0.1670 pi=0.0017 v=0.3431 ent=0.3138 kl=0.007075 lr=3.79222e-05 rew=-0.0105 ep_ret10=39.9100 ep_len10=96.00 ep_succ10=0.4600
+[MAPPO][EVAL] env_steps=1150976 target=1150000 episodes=10 succ=0.4567 ret=39.7733
+[MAPPO] update=450/488 env_steps=460800 loss=0.1347 pi=0.0047 v=0.2727 ent=0.3173 kl=0.009479 lr=3.49835e-05 rew=-0.0082 ep_ret10=40.4883 ep_len10=96.80 ep_succ10=0.4667
+[MAPPO] update=460/488 env_steps=471040 loss=0.1431 pi=-0.0011 v=0.2999 ent=0.2899 kl=0.001393 lr=3.27134e-05 rew=-0.0053 ep_ret10=43.1850 ep_len10=103.20 ep_succ10=0.5000
+[MAPPO] update=470/488 env_steps=481280 loss=0.1746 pi=0.0044 v=0.3528 ent=0.3049 kl=0.008013 lr=3.11236e-05 rew=-0.0065 ep_ret10=40.1817 ep_len10=95.20 ep_succ10=0.4633
+[MAPPO] update=480/488 env_steps=491520 loss=0.1689 pi=0.0031 v=0.3437 ent=0.3026 kl=0.012667 lr=3.02222e-05 rew=-0.0094 ep_ret10=39.6883 ep_len10=94.40 ep_succ10=0.4567
+[MAPPO] update=488/488 env_steps=499712 loss=0.1674 pi=0.0018 v=0.3428 ent=0.2902 kl=0.014524 lr=3e-05 rew=-0.0255 ep_ret10=40.2467 ep_len10=108.00 ep_succ10=0.4633
+[MAPPO][CUR] stage=4/4 dataset_episodes=100 stage_steps=800000 stage_updates=781
+[MAPPO] update=1/781 env_steps=1024 loss=0.1474 pi=-0.0008 v=0.3082 ent=0.2982 kl=0.009622 lr=6e-05 rew=-0.0092 ep_ret10=43.2783 ep_len10=105.60 ep_succ10=0.4867
+[MAPPO][EVAL] env_steps=1200128 target=1200000 episodes=10 succ=0.4367 ret=38.1383
+[MAPPO] update=10/781 env_steps=10240 loss=0.2867 pi=0.0016 v=0.5822 ent=0.3026 kl=0.007165 lr=8.80519e-05 rew=-0.0373 ep_ret10=35.1900 ep_len10=103.20 ep_succ10=0.4000
+[MAPPO] update=20/781 env_steps=20480 loss=0.2722 pi=0.0036 v=0.5492 ent=0.3008 kl=0.004856 lr=0.000119221 rew=-0.0467 ep_ret10=34.9133 ep_len10=104.00 ep_succ10=0.3967
+[MAPPO] update=30/781 env_steps=30720 loss=0.2076 pi=-0.0011 v=0.4298 ent=0.3096 kl=0.012872 lr=0.00015039 rew=-0.0331 ep_ret10=33.5300 ep_len10=96.80 ep_succ10=0.3800
+[MAPPO] update=40/781 env_steps=40960 loss=0.2221 pi=-0.0051 v=0.4662 ent=0.2971 kl=0.010124 lr=0.000181558 rew=-0.0373 ep_ret10=35.7483 ep_len10=100.80 ep_succ10=0.4067
+[MAPPO] update=50/781 env_steps=51200 loss=0.1965 pi=0.0018 v=0.4013 ent=0.2964 kl=0.004661 lr=0.000212727 rew=-0.0417 ep_ret10=34.8783 ep_len10=100.80 ep_succ10=0.3967
+[MAPPO][EVAL] env_steps=1250304 target=1250000 episodes=10 succ=0.4300 ret=37.6000
+[MAPPO] update=60/781 env_steps=61440 loss=0.1789 pi=0.0051 v=0.3591 ent=0.2857 kl=0.015151 lr=0.000243896 rew=-0.0339 ep_ret10=37.0717 ep_len10=103.20 ep_succ10=0.4233
+[MAPPO] update=70/781 env_steps=71680 loss=0.1604 pi=-0.0027 v=0.3382 ent=0.2974 kl=0.009253 lr=0.000275065 rew=-0.0281 ep_ret10=34.8833 ep_len10=96.80 ep_succ10=0.3967
+[MAPPO] update=80/781 env_steps=81920 loss=0.1853 pi=-0.0015 v=0.3850 ent=0.2843 kl=0.001328 lr=0.000299999 rew=-0.0312 ep_ret10=36.5583 ep_len10=104.80 ep_succ10=0.4167
+[MAPPO] update=90/781 env_steps=92160 loss=0.1848 pi=-0.0018 v=0.3842 ent=0.2724 kl=0.005780 lr=0.000299836 rew=-0.0417 ep_ret10=36.2867 ep_len10=104.80 ep_succ10=0.4133
+[MAPPO][EVAL] env_steps=1300480 target=1300000 episodes=10 succ=0.4267 ret=37.2833
+[MAPPO] update=100/781 env_steps=102400 loss=0.1415 pi=0.0019 v=0.2908 ent=0.2873 kl=0.010573 lr=0.000299404 rew=-0.0355 ep_ret10=36.1667 ep_len10=102.40 ep_succ10=0.4133
+[MAPPO] update=110/781 env_steps=112640 loss=0.2476 pi=0.0013 v=0.5036 ent=0.2744 kl=0.010210 lr=0.000298703 rew=-0.0173 ep_ret10=39.9300 ep_len10=102.40 ep_succ10=0.4600
+[MAPPO] update=120/781 env_steps=122880 loss=0.1625 pi=-0.0017 v=0.3387 ent=0.2596 kl=0.010678 lr=0.000297734 rew=-0.0327 ep_ret10=36.5133 ep_len10=104.00 ep_succ10=0.4167
+[MAPPO] update=130/781 env_steps=133120 loss=0.1844 pi=0.0002 v=0.3797 ent=0.2819 kl=0.007846 lr=0.000296499 rew=-0.0348 ep_ret10=36.1567 ep_len10=101.60 ep_succ10=0.4133
+[MAPPO] update=140/781 env_steps=143360 loss=0.2095 pi=0.0021 v=0.4263 ent=0.2880 kl=0.003107 lr=0.000295001 rew=-0.0325 ep_ret10=35.4067 ep_len10=100.80 ep_succ10=0.4033
+[MAPPO][EVAL] env_steps=1350656 target=1350000 episodes=10 succ=0.4500 ret=39.1850
+[MAPPO] update=150/781 env_steps=153600 loss=0.1430 pi=-0.0021 v=0.3008 ent=0.2636 kl=0.009846 lr=0.000293242 rew=-0.0288 ep_ret10=36.1467 ep_len10=100.00 ep_succ10=0.4133
+[MAPPO] update=160/781 env_steps=163840 loss=0.1468 pi=-0.0033 v=0.3094 ent=0.2340 kl=0.012697 lr=0.000291227 rew=-0.0248 ep_ret10=39.7183 ep_len10=104.00 ep_succ10=0.4567
+[MAPPO] update=170/781 env_steps=174080 loss=0.1808 pi=-0.0013 v=0.3734 ent=0.2279 kl=0.013205 lr=0.000288959 rew=-0.0373 ep_ret10=36.5533 ep_len10=108.80 ep_succ10=0.4167
+[MAPPO] update=180/781 env_steps=184320 loss=0.2122 pi=-0.0022 v=0.4387 ent=0.2456 kl=0.007310 lr=0.000286443 rew=-0.0253 ep_ret10=37.5300 ep_len10=104.00 ep_succ10=0.4300
+[MAPPO] update=190/781 env_steps=194560 loss=0.1912 pi=0.0004 v=0.3916 ent=0.2519 kl=0.009535 lr=0.000283684 rew=-0.0179 ep_ret10=38.2350 ep_len10=100.80 ep_succ10=0.4400
+[MAPPO][EVAL] env_steps=1400832 target=1400000 episodes=10 succ=0.4700 ret=40.7800
+[MAPPO] update=200/781 env_steps=204800 loss=0.1846 pi=-0.0012 v=0.3814 ent=0.2446 kl=0.006432 lr=0.000280686 rew=-0.0222 ep_ret10=38.5067 ep_len10=98.40 ep_succ10=0.4433
+[MAPPO] update=210/781 env_steps=215040 loss=0.2113 pi=0.0012 v=0.4309 ent=0.2677 kl=0.008358 lr=0.000277458 rew=-0.0234 ep_ret10=36.7400 ep_len10=97.60 ep_succ10=0.4200
+[MAPPO] update=220/781 env_steps=225280 loss=0.1678 pi=-0.0000 v=0.3474 ent=0.2934 kl=0.009137 lr=0.000274004 rew=-0.0132 ep_ret10=39.3017 ep_len10=99.20 ep_succ10=0.4533
+[MAPPO] update=230/781 env_steps=235520 loss=0.2059 pi=0.0020 v=0.4188 ent=0.2747 kl=0.003741 lr=0.000270332 rew=-0.0046 ep_ret10=40.6750 ep_len10=101.60 ep_succ10=0.4700
+[MAPPO] update=240/781 env_steps=245760 loss=0.2269 pi=0.0029 v=0.4589 ent=0.2745 kl=0.002692 lr=0.000266449 rew=-0.0249 ep_ret10=39.4367 ep_len10=105.60 ep_succ10=0.4533
+[MAPPO][EVAL] env_steps=1451008 target=1450000 episodes=10 succ=0.4500 ret=39.2200
+[MAPPO] update=250/781 env_steps=256000 loss=0.1821 pi=-0.0016 v=0.3785 ent=0.2767 kl=0.010374 lr=0.000262362 rew=-0.0228 ep_ret10=39.1500 ep_len10=105.60 ep_succ10=0.4500
+[MAPPO] update=260/781 env_steps=266240 loss=0.2224 pi=-0.0029 v=0.4628 ent=0.3044 kl=0.003620 lr=0.000258081 rew=-0.0161 ep_ret10=39.7233 ep_len10=104.00 ep_succ10=0.4567
+[MAPPO] update=270/781 env_steps=276480 loss=0.2027 pi=-0.0005 v=0.4171 ent=0.2644 kl=0.002765 lr=0.000253614 rew=-0.0400 ep_ret10=36.7800 ep_len10=106.40 ep_succ10=0.4200
+[MAPPO] update=280/781 env_steps=286720 loss=0.2307 pi=0.0002 v=0.4721 ent=0.2738 kl=0.005967 lr=0.000248969 rew=-0.0320 ep_ret10=38.0683 ep_len10=107.20 ep_succ10=0.4367
+[MAPPO] update=290/781 env_steps=296960 loss=0.1530 pi=-0.0013 v=0.3191 ent=0.2648 kl=0.001625 lr=0.000244155 rew=-0.0332 ep_ret10=35.8950 ep_len10=104.00 ep_succ10=0.4100
+[MAPPO][EVAL] env_steps=1500160 target=1500000 episodes=10 succ=0.4500 ret=39.1850
+[MAPPO] update=300/781 env_steps=307200 loss=0.1854 pi=-0.0026 v=0.3867 ent=0.2689 kl=0.000415 lr=0.000239184 rew=-0.0237 ep_ret10=38.1033 ep_len10=103.20 ep_succ10=0.4367
+[MAPPO] update=310/781 env_steps=317440 loss=0.1215 pi=-0.0060 v=0.2659 ent=0.2710 kl=0.008761 lr=0.000234064 rew=-0.0213 ep_ret10=37.7567 ep_len10=102.40 ep_succ10=0.4333
+[MAPPO] update=320/781 env_steps=327680 loss=0.2248 pi=0.0015 v=0.4575 ent=0.2731 kl=0.006910 lr=0.000228805 rew=-0.0086 ep_ret10=40.7550 ep_len10=103.20 ep_succ10=0.4700
+[MAPPO] update=330/781 env_steps=337920 loss=0.1601 pi=-0.0052 v=0.3419 ent=0.2808 kl=0.005481 lr=0.000223419 rew=-0.0170 ep_ret10=41.5800 ep_len10=104.80 ep_succ10=0.4800
+[MAPPO] update=340/781 env_steps=348160 loss=0.1692 pi=-0.0013 v=0.3532 ent=0.3030 kl=0.002734 lr=0.000217915 rew=-0.0243 ep_ret10=40.7600 ep_len10=106.40 ep_succ10=0.4700
+[MAPPO][EVAL] env_steps=1550336 target=1550000 episodes=10 succ=0.4567 ret=39.7833
+[MAPPO] update=350/781 env_steps=358400 loss=0.1318 pi=-0.0010 v=0.2767 ent=0.2789 kl=-0.003734 lr=0.000212306 rew=-0.0238 ep_ret10=39.4067 ep_len10=104.80 ep_succ10=0.4533
+[MAPPO] update=360/781 env_steps=368640 loss=0.2236 pi=-0.0019 v=0.4623 ent=0.2796 kl=0.012325 lr=0.000206602 rew=-0.0103 ep_ret10=42.1183 ep_len10=104.80 ep_succ10=0.4867
+[MAPPO] update=370/781 env_steps=378880 loss=0.1735 pi=0.0002 v=0.3571 ent=0.2629 kl=0.006599 lr=0.000200815 rew=-0.0104 ep_ret10=42.4000 ep_len10=104.00 ep_succ10=0.4900
+[MAPPO] update=380/781 env_steps=389120 loss=0.1793 pi=-0.0016 v=0.3734 ent=0.2897 kl=0.013475 lr=0.000194956 rew=0.0019 ep_ret10=42.1383 ep_len10=99.20 ep_succ10=0.4867
+[MAPPO] update=390/781 env_steps=399360 loss=0.1502 pi=-0.0021 v=0.3153 ent=0.2679 kl=0.007973 lr=0.000189037 rew=-0.0163 ep_ret10=39.2100 ep_len10=100.80 ep_succ10=0.4500
+[MAPPO][EVAL] env_steps=1600512 target=1600000 episodes=10 succ=0.4533 ret=39.4617
+[MAPPO] update=400/781 env_steps=409600 loss=0.1666 pi=0.0001 v=0.3445 ent=0.2835 kl=0.002772 lr=0.00018307 rew=-0.0148 ep_ret10=39.5467 ep_len10=102.40 ep_succ10=0.4533
+[MAPPO] update=410/781 env_steps=419840 loss=0.1155 pi=-0.0016 v=0.2452 ent=0.2735 kl=0.007053 lr=0.000177067 rew=-0.0218 ep_ret10=37.9117 ep_len10=100.80 ep_succ10=0.4333
+[MAPPO] update=420/781 env_steps=430080 loss=0.1825 pi=0.0010 v=0.3740 ent=0.2754 kl=0.004375 lr=0.00017104 rew=-0.0167 ep_ret10=40.3467 ep_len10=104.00 ep_succ10=0.4633
+[MAPPO] update=430/781 env_steps=440320 loss=0.1553 pi=0.0006 v=0.3201 ent=0.2660 kl=0.000623 lr=0.000165 rew=-0.0151 ep_ret10=38.1083 ep_len10=100.00 ep_succ10=0.4367
+[MAPPO] update=440/781 env_steps=450560 loss=0.1335 pi=-0.0012 v=0.2799 ent=0.2635 kl=0.003701 lr=0.00015896 rew=-0.0267 ep_ret10=37.0667 ep_len10=102.40 ep_succ10=0.4233
+[MAPPO][EVAL] env_steps=1650688 target=1650000 episodes=10 succ=0.4500 ret=39.1900
+[MAPPO] update=450/781 env_steps=460800 loss=0.1816 pi=0.0008 v=0.3717 ent=0.2572 kl=0.009373 lr=0.000152933 rew=-0.0212 ep_ret10=39.5267 ep_len10=104.80 ep_succ10=0.4533
+[MAPPO] update=460/781 env_steps=471040 loss=0.1355 pi=-0.0017 v=0.2846 ent=0.2539 kl=0.003816 lr=0.00014693 rew=-0.0218 ep_ret10=40.2617 ep_len10=110.40 ep_succ10=0.4633
+[MAPPO] update=470/781 env_steps=481280 loss=0.1553 pi=-0.0021 v=0.3255 ent=0.2656 kl=0.002263 lr=0.000140963 rew=-0.0164 ep_ret10=41.0617 ep_len10=109.60 ep_succ10=0.4733
+[MAPPO] update=480/781 env_steps=491520 loss=0.1825 pi=-0.0017 v=0.3785 ent=0.2485 kl=0.004457 lr=0.000135044 rew=-0.0367 ep_ret10=38.6917 ep_len10=112.00 ep_succ10=0.4433
+[MAPPO] update=490/781 env_steps=501760 loss=0.1356 pi=-0.0022 v=0.2861 ent=0.2638 kl=0.005852 lr=0.000129185 rew=-0.0224 ep_ret10=41.6400 ep_len10=109.60 ep_succ10=0.4800
+[MAPPO][EVAL] env_steps=1700864 target=1700000 episodes=10 succ=0.4433 ret=38.6267
+[MAPPO] update=500/781 env_steps=512000 loss=0.1365 pi=-0.0021 v=0.2880 ent=0.2721 kl=0.003493 lr=0.000123398 rew=-0.0237 ep_ret10=40.2317 ep_len10=107.20 ep_succ10=0.4633
+[MAPPO] update=510/781 env_steps=522240 loss=0.1671 pi=-0.0007 v=0.3460 ent=0.2604 kl=0.009278 lr=0.000117694 rew=-0.0211 ep_ret10=39.9350 ep_len10=110.40 ep_succ10=0.4600
+[MAPPO] update=520/781 env_steps=532480 loss=0.1338 pi=-0.0005 v=0.2790 ent=0.2608 kl=0.004884 lr=0.000112085 rew=-0.0134 ep_ret10=40.4783 ep_len10=107.20 ep_succ10=0.4667
+[MAPPO] update=530/781 env_steps=542720 loss=0.1477 pi=0.0025 v=0.3015 ent=0.2769 kl=0.003478 lr=0.000106581 rew=-0.0184 ep_ret10=39.2150 ep_len10=109.60 ep_succ10=0.4500
+[MAPPO][EVAL] env_steps=1750016 target=1750000 episodes=10 succ=0.4467 ret=38.9433
+[MAPPO] update=540/781 env_steps=552960 loss=0.1275 pi=-0.0013 v=0.2677 ent=0.2528 kl=0.004863 lr=0.000101195 rew=-0.0145 ep_ret10=41.6200 ep_len10=110.40 ep_succ10=0.4800
+[MAPPO] update=550/781 env_steps=563200 loss=0.1438 pi=0.0010 v=0.2956 ent=0.2480 kl=0.002921 lr=9.59365e-05 rew=-0.0266 ep_ret10=38.9433 ep_len10=110.40 ep_succ10=0.4467
+[MAPPO] update=560/781 env_steps=573440 loss=0.1208 pi=-0.0003 v=0.2532 ent=0.2710 kl=0.004188 lr=9.08163e-05 rew=-0.0200 ep_ret10=40.2917 ep_len10=110.40 ep_succ10=0.4633
+[MAPPO] update=570/781 env_steps=583680 loss=0.1223 pi=-0.0012 v=0.2578 ent=0.2722 kl=0.000211 lr=8.58446e-05 rew=-0.0133 ep_ret10=41.8517 ep_len10=106.40 ep_succ10=0.4833
+[MAPPO] update=580/781 env_steps=593920 loss=0.1346 pi=0.0012 v=0.2772 ent=0.2584 kl=0.008956 lr=8.10315e-05 rew=-0.0151 ep_ret10=42.1483 ep_len10=109.60 ep_succ10=0.4867
+[MAPPO][EVAL] env_steps=1800192 target=1800000 episodes=10 succ=0.4467 ret=38.8883
+[MAPPO] update=590/781 env_steps=604160 loss=0.1566 pi=0.0011 v=0.3219 ent=0.2766 kl=0.002058 lr=7.63864e-05 rew=-0.0049 ep_ret10=42.7067 ep_len10=108.80 ep_succ10=0.4933
+[MAPPO] update=600/781 env_steps=614400 loss=0.1512 pi=0.0016 v=0.3107 ent=0.2846 kl=0.000992 lr=7.19189e-05 rew=-0.0086 ep_ret10=40.7950 ep_len10=105.60 ep_succ10=0.4700
+[MAPPO] update=610/781 env_steps=624640 loss=0.1381 pi=0.0007 v=0.2855 ent=0.2652 kl=0.003544 lr=6.76377e-05 rew=-0.0072 ep_ret10=41.0117 ep_len10=104.80 ep_succ10=0.4733
+[MAPPO] update=620/781 env_steps=634880 loss=0.1479 pi=0.0008 v=0.3048 ent=0.2646 kl=0.007338 lr=6.35514e-05 rew=-0.0178 ep_ret10=39.4067 ep_len10=107.20 ep_succ10=0.4533
+[MAPPO] update=630/781 env_steps=645120 loss=0.1840 pi=0.0022 v=0.3740 ent=0.2599 kl=0.006424 lr=5.96683e-05 rew=-0.0195 ep_ret10=40.8000 ep_len10=109.60 ep_succ10=0.4700
+[MAPPO][EVAL] env_steps=1850368 target=1850000 episodes=10 succ=0.4533 ret=39.4267
+[MAPPO] update=640/781 env_steps=655360 loss=0.1152 pi=-0.0011 v=0.2431 ent=0.2598 kl=0.000949 lr=5.59962e-05 rew=-0.0188 ep_ret10=40.2517 ep_len10=108.00 ep_succ10=0.4633
+[MAPPO] update=650/781 env_steps=665600 loss=0.1305 pi=0.0001 v=0.2715 ent=0.2679 kl=0.001561 lr=5.25423e-05 rew=-0.0207 ep_ret10=38.7267 ep_len10=111.20 ep_succ10=0.4433
+[MAPPO] update=660/781 env_steps=675840 loss=0.1271 pi=0.0023 v=0.2603 ent=0.2644 kl=0.002296 lr=4.93135e-05 rew=-0.0156 ep_ret10=39.7183 ep_len10=108.00 ep_succ10=0.4567
+[MAPPO] update=670/781 env_steps=686080 loss=0.1895 pi=-0.0004 v=0.3898 ent=0.2500 kl=0.007487 lr=4.63165e-05 rew=-0.0270 ep_ret10=38.3000 ep_len10=106.40 ep_succ10=0.4400
+[MAPPO] update=680/781 env_steps=696320 loss=0.1224 pi=0.0001 v=0.2548 ent=0.2561 kl=0.002225 lr=4.35571e-05 rew=-0.0205 ep_ret10=39.4617 ep_len10=107.20 ep_succ10=0.4533
+[MAPPO][EVAL] env_steps=1900544 target=1900000 episodes=10 succ=0.4433 ret=38.6467
+[MAPPO] update=690/781 env_steps=706560 loss=0.1662 pi=0.0000 v=0.3429 ent=0.2626 kl=0.006383 lr=4.10408e-05 rew=-0.0214 ep_ret10=38.8633 ep_len10=104.00 ep_succ10=0.4467
+[MAPPO] update=700/781 env_steps=716800 loss=0.1595 pi=-0.0006 v=0.3307 ent=0.2621 kl=0.010026 lr=3.87728e-05 rew=-0.0276 ep_ret10=39.1700 ep_len10=106.40 ep_succ10=0.4500
+[MAPPO] update=710/781 env_steps=727040 loss=0.1421 pi=0.0029 v=0.2885 ent=0.2505 kl=0.004391 lr=3.67575e-05 rew=-0.0179 ep_ret10=41.2533 ep_len10=105.60 ep_succ10=0.4767
+[MAPPO] update=720/781 env_steps=737280 loss=0.1770 pi=0.0019 v=0.3612 ent=0.2724 kl=0.005048 lr=3.49991e-05 rew=0.0002 ep_ret10=42.8533 ep_len10=103.20 ep_succ10=0.4967
+[MAPPO] update=730/781 env_steps=747520 loss=0.1244 pi=0.0011 v=0.2569 ent=0.2572 kl=0.003525 lr=3.35009e-05 rew=-0.0098 ep_ret10=40.1967 ep_len10=104.80 ep_succ10=0.4633
+[MAPPO][EVAL] env_steps=1950720 target=1950000 episodes=10 succ=0.4533 ret=39.4017
+[MAPPO] update=740/781 env_steps=757760 loss=0.1316 pi=0.0010 v=0.2711 ent=0.2476 kl=0.004960 lr=3.22661e-05 rew=-0.0207 ep_ret10=38.0583 ep_len10=104.80 ep_succ10=0.4367
+[MAPPO] update=750/781 env_steps=768000 loss=0.1379 pi=0.0003 v=0.2857 ent=0.2625 kl=0.004496 lr=3.1297e-05 rew=-0.0060 ep_ret10=40.4683 ep_len10=101.60 ep_succ10=0.4667
+[MAPPO] update=760/781 env_steps=778240 loss=0.1009 pi=-0.0003 v=0.2127 ent=0.2587 kl=0.002556 lr=3.05957e-05 rew=-0.0113 ep_ret10=39.3967 ep_len10=103.20 ep_succ10=0.4533
+[MAPPO] update=770/781 env_steps=788480 loss=0.1343 pi=0.0019 v=0.2749 ent=0.2545 kl=0.004789 lr=3.01635e-05 rew=-0.0170 ep_ret10=39.9000 ep_len10=103.20 ep_succ10=0.4600
+[MAPPO] update=780/781 env_steps=798720 loss=0.1370 pi=0.0027 v=0.2795 ent=0.2685 kl=0.005674 lr=3.00014e-05 rew=-0.0020 ep_ret10=40.4883 ep_len10=100.80 ep_succ10=0.4667
+[MAPPO] update=781/781 env_steps=799744 loss=0.1326 pi=0.0010 v=0.2738 ent=0.2623 kl=0.004087 lr=3e-05 rew=-0.0150 ep_ret10=42.9833 ep_len10=105.60 ep_succ10=0.4967
+
+训练总结已保存到: /mnt/sdb11/HK/UAV_SFC_code/MAPPO/output/mappo_curr_seed42_20260520_000254/log/summary.json
+总回合数: 20675
+总步数: 1997824
+最佳成功率: 61.00%
+训练时长: 21674.3秒
+[MAPPO] training finished. checkpoint=/mnt/sdb11/HK/UAV_SFC_code/MAPPO/output/mappo_curr_seed42_20260520_000254/checkpoint/policy_final.pt
+[MAPPO] training_log=/mnt/sdb11/HK/UAV_SFC_code/MAPPO/output/mappo_curr_seed42_20260520_000254/log/training_log.csv
+[MAPPO] update_metrics=/mnt/sdb11/HK/UAV_SFC_code/MAPPO/output/mappo_curr_seed42_20260520_000254/log/update_metrics.csv
+[MAPPO] episode_metrics=/mnt/sdb11/HK/UAV_SFC_code/MAPPO/output/mappo_curr_seed42_20260520_000254/log/episode_metrics.csv
+[MAPPO] eval_metrics=/mnt/sdb11/HK/UAV_SFC_code/MAPPO/output/mappo_curr_seed42_20260520_000254/log/eval_metrics.csv
+[MAPPO] summary=/mnt/sdb11/HK/UAV_SFC_code/MAPPO/output/mappo_curr_seed42_20260520_000254/log/summary.json
+[MAPPO] logs saved to /mnt/sdb11/HK/UAV_SFC_code/MAPPO/output/mappo_curr_seed42_20260520_000254/log/train_update_log.yaml
