@@ -4,7 +4,7 @@ nohup python MAPPO/train_curriculum.py --config MAPPO/config_small_curriculum.ya
 
 
 绘图脚本：
-python MAPPO/plot_logs.py --log-dir MAPPO/output/mappo_seed42_20260510_141101/log --smooth 15
+python MAPPO/plot_logs.py --log-dir MAPPO/output/mappo_seed42_20260510_141101/log --smooth 100
 
 python MAPPO/plot_logs.py \
   --log-dirs \
@@ -20,7 +20,7 @@ python run_mpoploc_eval.py --config MAPPO/config_small.yaml
 checkpoint测试：
 python MAPPO/test_checkpoint.py \
   --config MAPPO/config_small.yaml \
-  --checkpoint MAPPO/output/atten_200wstep_data100_8uav_layernorm_warmup/checkpoint/policy_step800000.pt
+  --checkpoint MAPPO/output/mappo_seed42_20260524_201955/checkpoint/policy_step400000.pt
 
 本文档说明如何使用 `MAPPO/train.py` 启动训练。
 

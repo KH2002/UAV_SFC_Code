@@ -113,6 +113,7 @@ def main() -> None:
     eval_data_dir = str(eval_cfg.get("data_dir", "./eval_data"))
     eval_force_regenerate = bool(eval_cfg.get("force_regenerate", False))
     eval_interval_steps = int(training_cfg.get("eval_interval_steps", 0) or 0)
+    shuffle_requests_on_reset = bool(training_cfg.get("shuffle_requests_on_reset", True))
 
     stamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     experiment_name = args.experiment_name or f"mappo_seed{args.seed}_{stamp}"
@@ -139,6 +140,7 @@ def main() -> None:
             "eval_data_dir": eval_data_dir,
             "eval_force_regenerate": eval_force_regenerate,
             "eval_interval_steps": eval_interval_steps,
+            "shuffle_requests_on_reset": shuffle_requests_on_reset,
             "record_step_metrics": bool(logging_cfg.get("record_step_metrics", False)),
             },
         "uav_resources": {
@@ -186,6 +188,7 @@ def main() -> None:
     )
 
     env = MAPPOSFCEnv(config_yaml_path=args.config, episode_data=dataset[0], seed=args.seed)
+    env.set_request_shuffle_on_reset(shuffle_requests_on_reset)
 
     # 每次 episode reset 前切换到下一条数据，确保轮换同一训练集
     _raw_env_reset = env.reset
@@ -237,6 +240,7 @@ def main() -> None:
 
     trainer = MAPPOTrainer(env=env, policy=policy, config=trainer_cfg)
     eval_env = MAPPOSFCEnv(config_yaml_path=args.config, episode_data=eval_dataset[0], seed=eval_base_seed)
+    eval_env.set_request_shuffle_on_reset(False)
     ckpt_dir = os.path.join(experiment_root, "checkpoint")
     log_dir = logger.log_dir
     os.makedirs(ckpt_dir, exist_ok=True)

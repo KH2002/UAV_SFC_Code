@@ -44,6 +44,7 @@ training:
   lr_warmup_init_ratio: 0.2  # warmup起始学习率 = lr * 该比例
   lr_min_ratio: 0.1          # 退火末端学习率 = lr * 该比例
   eval_interval_steps: 50000 # 每 N 个 env_step 在 eval_data 上做一次 deterministic 评估
+  shuffle_requests_on_reset: true # 训练时每个 episode reset 随机打乱 request 顺序（eval 始终关闭）
   device: "cuda"              # 训练设备："cpu" 或 "cuda"
 
 # 环境奖励/约束参数

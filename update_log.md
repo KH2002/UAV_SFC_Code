@@ -66,4 +66,8 @@ MAPPO的收敛效果很差尝试以下改进：
 检查MLP的输出，不同SFC的输出不同
 
 2026-5-23
-尝试打乱request的顺序试试
+一、尝试打乱request的顺序试试
+二、
+1、60 VNF token 输入（每个 token 独立）
+2、用 query 对 token 打分（pointer/scoring head），替代固定 policy_head
+3、给 token 加 request_id/paired_vnf 关系特征，保留双VNF约束

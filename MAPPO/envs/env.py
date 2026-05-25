@@ -152,6 +152,7 @@ class MAPPOSFCEnv:
         self.agent_slot_location: Dict[int, Optional[int]] = {}  # agent_id -> location_id
         self.turn_in_round = 0  # 当前 round 已执行到第几个 agent
         self.round_end_votes = 0  # 当前 round 中选择 END_TOKEN 的 agent 数
+        self.shuffle_requests_on_reset = False
 
         self._init_scene()
 
@@ -161,12 +162,21 @@ class MAPPOSFCEnv:
         self._episode_data = episode_data
         self._init_scene()
 
+    def set_request_shuffle_on_reset(self, enabled: bool) -> None:
+        """是否在每个 episode reset 时随机打乱 request 顺序。"""
+        self.shuffle_requests_on_reset = bool(enabled)
+
     def reset(self) -> Dict[str, object]:
         if self._original_uavs is not None and self._original_requests is not None:
             self.uavs = self._copy_uavs(self._original_uavs)
             self.requests = self._copy_requests(self._original_requests)
         else:
             self._init_scene_runtime_random()
+
+        # 仅打乱动作索引与 request 的映射顺序，不改变 request 本身内容
+        if self.shuffle_requests_on_reset and len(self.requests) > 1:
+            order = self.rng.permutation(len(self.requests)).tolist()
+            self.requests = [self.requests[i] for i in order]
 
         self.current_time_slot = 1
         self.current_round = 0
