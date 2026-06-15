@@ -269,7 +269,6 @@ class MAPPOTrainer:
             with torch.no_grad():
                 act_out = self.policy.act(obs_t, deterministic=False)
                 value = self.policy.get_value(obs_t)
-                deploy_score_table = self.policy.score_vnfs_for_deployment(obs_t)[0].detach().cpu().numpy()
 
             action = int(act_out["action"][0].item())
             log_prob = float(act_out["log_prob"][0].item())
@@ -278,7 +277,6 @@ class MAPPOTrainer:
             next_obs, reward, done, info = self.env.step(
                 current_agent_id,
                 action,
-                deploy_score_table=deploy_score_table,
             )
             raw_reward = float(reward)
             train_reward = raw_reward

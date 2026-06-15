@@ -15,8 +15,14 @@ import numpy as np
 import torch
 import yaml
 
-# 兼容 `python MAPPO/train.py` 直接启动
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+# 兼容从仓库根目录、MADRL+RULE 目录或脚本路径直接启动
+_TRAINING_DIR = os.path.dirname(__file__)
+_SRC_DIR = os.path.abspath(os.path.join(_TRAINING_DIR, ".."))
+_MADRL_DIR = os.path.abspath(os.path.join(_SRC_DIR, ".."))
+_REPO_ROOT = os.path.abspath(os.path.join(_MADRL_DIR, ".."))
+for _path in (_SRC_DIR, _MADRL_DIR, _REPO_ROOT):
+    if _path not in sys.path:
+        sys.path.insert(0, _path)
 
 import config as env_config
 from DRL.training.logger import TrainingLogger
@@ -47,7 +53,7 @@ def _resolve_output_root(logging_cfg: Dict[str, object], config_path: str) -> st
     if isinstance(output_dir_cfg, str) and output_dir_cfg.strip():
         return _resolve_output_dir(output_dir_cfg, config_path)
 
-    log_dir_cfg = str(logging_cfg.get("log_dir", os.path.join("MAPPO", "output", "logs")))
+    log_dir_cfg = str(logging_cfg.get("log_dir", os.path.join("MADRL+RULE", "output", "logs")))
     resolved_log_dir = _resolve_output_dir(log_dir_cfg, config_path)
     if os.path.basename(resolved_log_dir) in {"logs", "log"}:
         return os.path.dirname(resolved_log_dir)

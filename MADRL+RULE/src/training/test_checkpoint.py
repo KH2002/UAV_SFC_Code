@@ -530,14 +530,12 @@ def main() -> None:
 
                 obs_t = obs_to_tensors(obs, device=device)
                 act_out = policy.act(obs_t, deterministic=deterministic)
-                deploy_score_table = policy.score_vnfs_for_deployment(obs_t)[0].detach().cpu().numpy()
                 action = int(act_out["action"][0].item())
 
                 action_detail = _decode_action_detail(env, action)
                 next_obs, reward, done, info = env.step(
                     agent_id,
                     action,
-                    deploy_score_table=deploy_score_table,
                 )
                 ep_return += float(reward)
                 step_idx += 1

@@ -141,9 +141,11 @@ class MAPPOSFCEnv:
         config_yaml_path: Optional[str] = None,
         episode_data: Optional[EpisodeData] = None,
         seed: Optional[int] = None,
+        deploy_score_fn=None,
     ):
         self.cfg = env_config or load_env_config(config_yaml_path)
         self.rng = np.random.default_rng(seed)
+        self.deploy_score_fn = deploy_score_fn  # Callable: obs -> [N, 2P]
 
         self._episode_data = episode_data
         self.locations: Dict[int, Tuple[float, float]] = {}
@@ -175,6 +177,10 @@ class MAPPOSFCEnv:
         self._init_scene()
 
     # --------------------------- public API ---------------------------
+
+    def set_deploy_score_fn(self, fn) -> None:
+        """设置部署得分回调函数：fn(obs) -> np.ndarray[N, 2P]。"""
+        self.deploy_score_fn = fn
 
     def set_episode_data(self, episode_data: EpisodeData) -> None:
         self._episode_data = episode_data
@@ -233,6 +239,7 @@ class MAPPOSFCEnv:
             if self._is_location_feasible_for_agent(agent_id, int(location_id)):
                 valid_claim_count = 1
                 sfc_potential_count = self._count_location_sfc_potential(agent_id, int(location_id))
+                self._move_uav_to_selected_location(agent_id, int(location_id))
             else:
                 invalid_count += 1
 
@@ -254,6 +261,9 @@ class MAPPOSFCEnv:
             round_completed = True
             self.current_round += 1
             slot_ended = True
+            # 两阶段：所有 agent 位置确定后，通过参数或回调获取新的 VNF 部署得分
+            if deploy_score_table is None and self.deploy_score_fn is not None:
+                deploy_score_table = self.deploy_score_fn(self.get_obs())
             slot_deployed_vnf = self._deploy_slot_by_rule(deploy_score_table=deploy_score_table)
             deployed_vnfs_by_agent = {
                 int(agent_id): list(vnfs)
@@ -712,11 +722,12 @@ class MAPPOSFCEnv:
 
         # 首次认领时预留一个 slot 的悬停基础能耗；同一时隙后续认领不重复预留
         hover_reserve = self._estimate_hover_energy() if not uav.is_busy else 0.0
+        return_distance = float(utils.calculate_distance(target, config.BASE_STATION_LOCATION))
         need_energy = (
             self._estimate_travel_energy(travel_distance)
             + self._estimate_service_energy(vnf)
             + hover_reserve
-            + self._estimate_return_energy(uav)
+            + self._estimate_travel_energy(return_distance)
         )
         return uav.energy >= need_energy
 
@@ -727,11 +738,19 @@ class MAPPOSFCEnv:
                 return True
         return False
 
+    def _move_uav_to_selected_location(self, agent_id: int, location_id: int) -> None:
+        uav = self.uavs[agent_id]
+        target = self.locations.get(location_id, uav.location)
+        distance = float(utils.calculate_distance(uav.location, target))
+        uav.energy = max(0.0, uav.energy - self._estimate_travel_energy(distance))
+        uav.location = target
+        uav.location_id = int(location_id)
+
     def _consume_resources_for_claim(self, uav: UAV, vnf) -> None:
         target = self.locations.get(vnf.location_id, uav.location)
 
-        # 飞行
-        if not uav.is_busy:
+        # 飞行能耗通常已在选择 location 时扣除；若外部直接调用部署逻辑，则补齐移动
+        if not uav.is_busy and int(uav.location_id) != int(vnf.location_id):
             dist = float(utils.calculate_distance(uav.location, target))
             uav.energy -= self._estimate_travel_energy(dist)
             uav.location = target

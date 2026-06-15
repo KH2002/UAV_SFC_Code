@@ -71,3 +71,35 @@ MAPPO的收敛效果很差尝试以下改进：
 1、60 VNF token 输入（每个 token 独立）
 2、用 query 对 token 打分（pointer/scoring head），替代固定 policy_head
 3、给 token 加 request_id/paired_vnf 关系特征，保留双VNF约束
+
+2026-6-12
+将动作空间分解为"先决 UAV 位置，再部署 VNF"两阶段，新代码放在 MADRL+RULE 目录。
+- 第一阶段：Actor 输出 VNF 得分，按 location 做 scatter_add 聚合为 location logits，agent 选择位置
+- 第二阶段：所有 agent 选完位置后，规则部署
+效果：相比纯 MAPPO 直接选 VNF，动作空间更小，成功率提升到 0.6~0.76 区间，但仍不够稳定。
+
+2026-6-13
+代码 review 发现两个核心问题：
+1、deploy_score_table 在每个 agent step 之前就提前计算，规则部署只用了"最后一个 agent 行动前"的 score，没用上"所有 agent 已确定位置"的信息
+2、policy_head 输出的 logits 被 vnf_score 聚合结果完全覆盖，cross-attention 模块在训练中梯度断流
+
+重构内容（spec：two-stage-vnf-scoring）：
+- env.step 移除 deploy_score_table 参数，改为通过 deploy_score_fn 回调
+- trainer 注册 _compute_deploy_scores 回调，在所有 agent 选完位置后用最新 obs 重新计算 VNF 得分
+- 这样第二阶段 VNF scoring 真正基于"位置已锁定"的观测进行打分
+
+2026-6-14
+继续重构（spec：update-uav-location-on-selection）：
+让 UAV 在选择位置后立即更新真实位置，使后续 agent 观测和第二阶段 VNF scoring 都能看到新位置。
+- 新增 _move_uav_to_selected_location：选择可行位置后立即移动 UAV，扣飞行能耗，更新 location 与 location_id
+- _consume_resources_for_claim：UAV 已在目标位置时不重复扣飞行能耗
+- _is_valid_claim：返航能耗按目标位置到基站计算，避免低估
+保留服务能耗、CPU 扣减和 busy 状态在 VNF 部署阶段处理。
+
+2026-6-15
+调研后续改进方向（待实施）：
+1、credit assignment：当前所有 deploy/complete 奖励集中在最后一个 agent，前面 agent 信号弱；候选方案 PRD-MAPPO（RLC 2024）、COMA 反事实基线、slot 内 reward 共享
+2、vnf_score_head 训练信号缺失：当前只在 inference 用，没有梯度回传；可加辅助监督 loss
+3、potential-based reward shaping：用完成进度作势函数，替代稀疏 terminal_success_bonus
+4、显式通信机制 / hierarchical RL 替代规则部署
+
