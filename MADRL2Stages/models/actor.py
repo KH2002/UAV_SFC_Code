@@ -41,6 +41,12 @@ class MAPPOActor(nn.Module):
         self.agent_blocks = nn.ModuleList(
             [TransformerBlock(hidden_dim, num_heads=num_heads, dropout=dropout) for _ in range(num_agent_blocks)]
         )
+        self.task_blocks = nn.ModuleList(
+            [TransformerBlock(hidden_dim, num_heads=num_heads, dropout=dropout) for _ in range(num_agent_blocks)]
+        )
+        self.vnf_blocks = nn.ModuleList(
+            [TransformerBlock(hidden_dim, num_heads=num_heads, dropout=dropout) for _ in range(num_agent_blocks)]
+        )
 
         self.cross_attn = nn.MultiheadAttention(
             embed_dim=hidden_dim,
@@ -102,6 +108,23 @@ class MAPPOActor(nn.Module):
         gather_idx = current_agent_id.view(bsz, 1, 1).expand(-1, 1, hidden)
         return agent_tokens.gather(dim=1, index=gather_idx).squeeze(1)
 
+    def _encode_tasks(self, task_matrix: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]:
+        task_tokens = self.task_encoder(task_matrix)
+        task_padding_mask = task_matrix.abs().sum(dim=-1) <= 0
+        for block in self.task_blocks:
+            task_tokens = block(task_tokens, key_padding_mask=task_padding_mask)
+        return task_tokens, task_padding_mask
+
+    def _encode_vnfs(self, task_matrix: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+        vnf_features = self._build_vnf_features(task_matrix)
+        bsz, num_tasks, num_vnfs, _ = vnf_features.shape
+        flat_vnf_features = vnf_features.reshape(bsz, num_tasks * num_vnfs, -1)
+        vnf_tokens = self.vnf_encoder(flat_vnf_features)
+        vnf_padding_mask = flat_vnf_features.abs().sum(dim=-1) <= 0
+        for block in self.vnf_blocks:
+            vnf_tokens = block(vnf_tokens, key_padding_mask=vnf_padding_mask)
+        return vnf_tokens, flat_vnf_features, vnf_padding_mask
+
     def _build_vnf_features(self, task_matrix: torch.Tensor) -> torch.Tensor:
         """将每个 SFC request 的两个 VNF 拆成 VNF token 特征。"""
         vnf0 = torch.stack(
@@ -144,14 +167,11 @@ class MAPPOActor(nn.Module):
         """
         agent_tokens = self._encode_agents(agent_self, agent_avail_mask)  # [B,N,H]
         context_token = self.context_encoder(context)  # [B,H]
-        vnf_features = self._build_vnf_features(task_matrix)  # [B,P,2,7]
-        bsz, num_tasks, num_vnfs, _ = vnf_features.shape
-
-        flat_vnf_features = vnf_features.view(bsz, num_tasks * num_vnfs, -1)
-        vnf_tokens = self.vnf_encoder(flat_vnf_features)  # [B,2P,H]
+        vnf_tokens, _, _ = self._encode_vnfs(task_matrix)  # [B,2P,H]
 
         num_agents = agent_tokens.shape[1]
-        agent_expand = agent_tokens.unsqueeze(2).expand(-1, -1, num_tasks * num_vnfs, -1)
+        num_vnf_tokens = vnf_tokens.shape[1]
+        agent_expand = agent_tokens.unsqueeze(2).expand(-1, -1, num_vnf_tokens, -1)
         vnf_expand = vnf_tokens.unsqueeze(1).expand(-1, num_agents, -1, -1)
         context_expand = context_token.unsqueeze(1).unsqueeze(2).expand_as(agent_expand)
         fusion = torch.cat([agent_expand, vnf_expand, context_expand], dim=-1)
@@ -170,14 +190,13 @@ class MAPPOActor(nn.Module):
         agent_tokens = self._encode_agents(agent_self, agent_avail_mask)  # [B,N,H]
         selected_agent = self._select_current_agent_token(agent_tokens, current_agent_id)  # [B,H]
 
-        task_tokens = self.task_encoder(task_matrix)  # [B,P,H]
+        task_tokens, task_padding_mask = self._encode_tasks(task_matrix)  # [B,P,H]
         context_token = self.context_encoder(context)  # [B,H]
 
         query = (selected_agent + context_token).unsqueeze(1)  # [B,1,H]
         norm_query = self.cross_query_norm(query)
         norm_task_tokens = self.cross_kv_norm(task_tokens)
 
-        task_padding_mask = (task_matrix.abs().sum(dim=-1) <= 0)  # [B,P]
         cross_out, _ = self.cross_attn(
             query=norm_query,
             key=norm_task_tokens,
@@ -189,14 +208,13 @@ class MAPPOActor(nn.Module):
 
         fusion = torch.cat([selected_agent, cross_out, context_token], dim=-1)  # [B,3H]
         logits = self.policy_head(fusion)  # [B,A]
+        vnf_scores = None
 
         if vnf_location_ids is not None:
-            vnf_features = self._build_vnf_features(task_matrix)  # [B,P,2,7]
-            bsz, num_tasks, num_vnfs, _ = vnf_features.shape
-            flat_vnf_features = vnf_features.view(bsz, num_tasks * num_vnfs, -1)
-            flat_location_ids = vnf_location_ids.view(bsz, num_tasks * num_vnfs)
+            vnf_tokens, flat_vnf_features, _ = self._encode_vnfs(task_matrix)  # [B,2P,H]
+            bsz = vnf_tokens.shape[0]
+            flat_location_ids = vnf_location_ids.reshape(bsz, -1)
 
-            vnf_tokens = self.vnf_encoder(flat_vnf_features)  # [B,2P,H]
             selected_expand = selected_agent.unsqueeze(1).expand_as(vnf_tokens)
             context_expand = context_token.unsqueeze(1).expand_as(vnf_tokens)
             vnf_fusion = torch.cat([selected_expand, vnf_tokens, context_expand], dim=-1)

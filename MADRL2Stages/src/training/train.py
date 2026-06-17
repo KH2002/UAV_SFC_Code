@@ -15,7 +15,8 @@ import numpy as np
 import torch
 import yaml
 
-# 兼容从仓库根目录、MADRL+RULE 目录或脚本路径直接启动
+    # 兼容从仓库根目录、MADRL2Stages 目录或脚本路径直接启动
+
 _TRAINING_DIR = os.path.dirname(__file__)
 _SRC_DIR = os.path.abspath(os.path.join(_TRAINING_DIR, ".."))
 _MADRL_DIR = os.path.abspath(os.path.join(_SRC_DIR, ".."))
