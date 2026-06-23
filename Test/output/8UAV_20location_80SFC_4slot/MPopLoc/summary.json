@@ -1,0 +1,10 @@
+{
+  "method": "MPopLoc",
+  "config": "/root/paddlejob/workspace/UAV_SFC_Code/Test/config_test.yaml",
+  "scene_tag": "8UAV_20location_80SFC_4slot",
+  "episodes": 20,
+  "avg_success_rate": 0.37437499999999996,
+  "avg_completed_count": 29.95,
+  "avg_energy_consumed": 360248.59574449423,
+  "avg_runtime_sec": 0.032546482142060996
+}

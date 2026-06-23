@@ -1,0 +1,10 @@
+{
+  "method": "MPopLoc",
+  "config": "/root/paddlejob/workspace/UAV_SFC_Code/MADRL2Stages/config/config_large.yaml",
+  "scene_tag": "8UAV_20location_50SFC_4slot",
+  "episodes": 20,
+  "avg_success_rate": 0.5279999999999999,
+  "avg_completed_count": 26.4,
+  "avg_energy_consumed": 378528.00148245814,
+  "avg_runtime_sec": 0.01882807007059455
+}

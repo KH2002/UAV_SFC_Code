@@ -1,0 +1,12 @@
+{
+  "method": "MADRL2Stages",
+  "config": "/root/paddlejob/workspace/UAV_SFC_Code/Test/config_test.yaml",
+  "checkpoint": "/root/paddlejob/workspace/UAV_SFC_Code/MADRL2Stages/output/madrl2stages_8UAV_20loaction_50SFC_4slot/checkpoint/policy_final.pt",
+  "scene_tag": "8UAV_20location_80SFC_4slot",
+  "deploy_score": "policy",
+  "episodes": 20,
+  "avg_success_rate": 0.3837499999999999,
+  "avg_completed_count": 30.7,
+  "avg_energy_consumed": 258763.33396807598,
+  "avg_runtime_sec": 0.7820964528247714
+}
