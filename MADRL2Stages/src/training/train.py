@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import importlib.util
 import os
 import random
 import sys
@@ -26,8 +27,28 @@ for _path in (_SRC_DIR, _MADRL_DIR, _REPO_ROOT):
         sys.path.insert(0, _path)
 
 import config as env_config
-from DRL.training.logger import TrainingLogger
-from DRL.training.dataset import create_or_load_dataset
+
+
+def _load_module_from_file(module_name: str, path: str):
+    spec = importlib.util.spec_from_file_location(module_name, path)
+    if spec is None or spec.loader is None:
+        raise ImportError(f"Unable to load module {module_name} from {path}")
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[module_name] = module
+    spec.loader.exec_module(module)
+    return module
+
+
+_DATASET_MODULE = _load_module_from_file(
+    "DRL.training.dataset",
+    os.path.join(_REPO_ROOT, "DRL", "training", "dataset.py"),
+)
+_LOGGER_MODULE = _load_module_from_file(
+    "DRL.training.logger",
+    os.path.join(_REPO_ROOT, "DRL", "training", "logger.py"),
+)
+TrainingLogger = _LOGGER_MODULE.TrainingLogger
+create_or_load_dataset = _DATASET_MODULE.create_or_load_dataset
 from envs.env import MAPPOSFCEnv
 from models import MAPPOPolicy, obs_to_tensors
 from training import MAPPOTrainer, load_trainer_config
@@ -271,7 +292,8 @@ def main() -> None:
     ]
     update_fields = [
         "timestamp", "update", "env_steps", "episodes_done_in_rollout", "total_episodes_done",
-        "loss", "policy_loss", "value_loss", "entropy", "kl_div", "lr",
+        "loss", "policy_loss", "value_loss", "entropy", "kl_div",
+        "value_explained_variance", "value_return_corr", "lr",
         "avg_reward", "avg_return_10ep", "avg_episode_length_10ep", "avg_success_rate_10ep",
         "current_time_slot", "completed_count", "pending_count",
     ]

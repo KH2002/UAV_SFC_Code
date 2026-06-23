@@ -168,6 +168,49 @@ class RewardNormalizer:
         return float((reward - self.mean) / std)
 
 
+class ReturnNormalizer:
+    """对 GAE returns 维护 running mean/std，用于 value loss 归一化。
+
+    采用 batched Welford（chan 等价更新）以提升数值稳定性。仅用于在 PPO
+    更新时把 value 预测和回报缩放到相近量级，value 头本身仍预测 raw return，
+    保证 GAE 推断保持一致。
+    """
+
+    def __init__(self, eps: float = 1e-8):
+        self.mean = 0.0
+        self.var = 1.0
+        self.count = 0
+        self.eps = eps
+
+    def update(self, batch: np.ndarray) -> None:
+        batch = np.asarray(batch, dtype=np.float64).reshape(-1)
+        if batch.size == 0:
+            return
+        batch_mean = float(batch.mean())
+        batch_var = float(batch.var())
+        batch_count = int(batch.size)
+
+        if self.count == 0:
+            self.mean = batch_mean
+            self.var = batch_var if batch_var > 0 else 1.0
+            self.count = batch_count
+            return
+
+        delta = batch_mean - self.mean
+        total_count = self.count + batch_count
+        new_mean = self.mean + delta * batch_count / total_count
+        m_a = self.var * self.count
+        m_b = batch_var * batch_count
+        m2 = m_a + m_b + delta * delta * self.count * batch_count / total_count
+        self.mean = new_mean
+        self.var = m2 / total_count
+        self.count = total_count
+
+    @property
+    def std(self) -> float:
+        return float(np.sqrt(max(self.var, 0.0)) + self.eps)
+
+
 class MAPPOTrainer:
     def __init__(
         self,
@@ -183,6 +226,7 @@ class MAPPOTrainer:
         self.base_lr = float(self.cfg.lr)
         self.optimizer = Adam(self.policy.parameters(), lr=self.base_lr)
         self.reward_normalizer = RewardNormalizer() if self.cfg.use_reward_norm else None
+        self.return_normalizer = ReturnNormalizer()
 
         self.rollout = RolloutBuffer()
         self.current_obs = self.env.reset()
@@ -394,6 +438,35 @@ class MAPPOTrainer:
     def _slice_obs_batch(self, obs_batch: Dict[str, torch.Tensor], idx: torch.Tensor) -> Dict[str, torch.Tensor]:
         return {k: v[idx] for k, v in obs_batch.items()}
 
+    @staticmethod
+    def _value_diagnostics(values: np.ndarray, returns: np.ndarray) -> Dict[str, float]:
+        values = np.asarray(values, dtype=np.float64).reshape(-1)
+        returns = np.asarray(returns, dtype=np.float64).reshape(-1)
+        if values.size == 0 or returns.size == 0 or values.size != returns.size:
+            return {"value_explained_variance": 0.0, "value_return_corr": 0.0}
+
+        return_var = float(np.var(returns))
+        if return_var <= 1e-12:
+            explained_variance = 0.0
+        else:
+            explained_variance = 1.0 - float(np.var(returns - values)) / return_var
+
+        value_std = float(np.std(values))
+        return_std = float(np.std(returns))
+        if value_std <= 1e-12 or return_std <= 1e-12:
+            value_return_corr = 0.0
+        else:
+            value_return_corr = float(np.corrcoef(values, returns)[0, 1])
+            if not np.isfinite(value_return_corr):
+                value_return_corr = 0.0
+
+        if not np.isfinite(explained_variance):
+            explained_variance = 0.0
+        return {
+            "value_explained_variance": float(explained_variance),
+            "value_return_corr": float(value_return_corr),
+        }
+
     def update(self, rollout_meta: Dict[str, np.ndarray]) -> Dict[str, float]:
         n = len(self.rollout)
         if n == 0:
@@ -407,6 +480,19 @@ class MAPPOTrainer:
 
         if self.cfg.normalize_advantages:
             advantages = (advantages - advantages.mean()) / (advantages.std() + 1e-8)
+
+        returns_np = np.asarray(rollout_meta["returns"], dtype=np.float32)
+        value_diag_before = self._value_diagnostics(
+            np.asarray(rollout_meta.get("values", []), dtype=np.float32),
+            returns_np,
+        )
+
+        # 用 rollout 的 returns 更新 running stats，再把 returns 归一化用于 value loss。
+        # value 头训练目标变成归一化后的 returns，预测时再乘回 std/加 mean 还原。
+        self.return_normalizer.update(returns_np)
+        ret_mean = float(self.return_normalizer.mean)
+        ret_std = float(self.return_normalizer.std)
+        normalized_returns = (returns - ret_mean) / ret_std
 
         total_policy_loss = 0.0
         total_value_loss = 0.0
@@ -425,7 +511,7 @@ class MAPPOTrainer:
                 mb_actions = actions[mb_idx]
                 mb_old_log_probs = old_log_probs[mb_idx]
                 mb_advantages = advantages[mb_idx]
-                mb_returns = returns[mb_idx]
+                mb_returns_norm = normalized_returns[mb_idx]
 
                 eval_out = self.policy.evaluate_actions(mb_obs, mb_actions)
                 new_log_probs = eval_out["log_prob"]
@@ -438,14 +524,19 @@ class MAPPOTrainer:
                 surr2 = torch.clamp(ratio, 1.0 - self.cfg.clip_eps, 1.0 + self.cfg.clip_eps) * mb_advantages
                 policy_loss = -torch.min(surr1, surr2).mean()
 
-                value_loss = F.mse_loss(values, mb_returns)
+                # value 头预测的是 raw return；用 running stats 归一化后再算 MSE，
+                # 让 value loss 的量级稳定在 O(1)，避免压制 actor 梯度。
+                values_norm = (values - ret_mean) / ret_std
+                value_loss = F.mse_loss(values_norm, mb_returns_norm)
                 entropy_loss = entropy.mean()
 
                 loss = policy_loss + self.cfg.value_coef * value_loss - self.cfg.entropy_coef * entropy_loss
 
                 self.optimizer.zero_grad()
                 loss.backward()
-                nn.utils.clip_grad_norm_(self.policy.parameters(), self.cfg.max_grad_norm)
+                # 分离 actor / critic 梯度裁剪，避免 critic 大梯度按比例缩小 actor 梯度。
+                nn.utils.clip_grad_norm_(self.policy.actor.parameters(), self.cfg.max_grad_norm)
+                nn.utils.clip_grad_norm_(self.policy.critic.parameters(), self.cfg.max_grad_norm)
                 self.optimizer.step()
 
                 total_policy_loss += float(policy_loss.item())
@@ -461,6 +552,8 @@ class MAPPOTrainer:
             "entropy": total_entropy / max(updates, 1),
             "kl_div": total_kl / max(updates, 1),
             "loss": total_loss / max(updates, 1),
+            "value_explained_variance": float(value_diag_before["value_explained_variance"]),
+            "value_return_corr": float(value_diag_before["value_return_corr"]),
             "avg_reward": float(np.mean(self.rollout.rewards)) if len(self.rollout.rewards) > 0 else 0.0,
             "avg_return_10ep": float(np.mean(self.episode_returns[-10:])) if len(self.episode_returns) > 0 else 0.0,
             "avg_episode_length_10ep": (

@@ -1,0 +1,81 @@
+# MAPPO 小规模训练配置 - Greedy 热启动 + RL 微调
+
+scene:
+  area_size: 1000.0
+  num_locations: 20
+  num_uavs: 8
+  num_requests: 30
+  num_time_slots: 4
+  vnfs_per_request: 2
+
+ppo:
+  lr: 0.0003
+  gamma: 0.99
+  lambda: 0.95
+  epsilon: 0.05
+  value_loss_coef: 0.5
+  entropy_coef: 0.005
+  max_grad_norm: 0.5
+  ppo_epochs: 4
+  batch_size: 256
+
+network:
+  hidden_dim: 256
+  num_heads: 8
+  num_encoder_layers: 2
+  dropout: 0.1
+
+warmstart:
+  teacher: "greedy"
+  bc_epochs: 200
+  bc_batch_size: 256
+  bc_lr: 0.0003
+  bc_max_grad_norm: 0.5
+  bc_max_episodes: null
+
+training:
+  total_episodes: 3000
+  max_step: 100000
+  save_step: 20000
+  total_timesteps: null
+  rollout_steps: 1024
+  max_steps_per_episode: 200
+  normalize_advantages: true
+  use_reward_norm: true
+  use_lr_schedule: false
+  lr_schedule: "none"
+  lr_warmup_ratio: 0.1
+  lr_warmup_init_ratio: 0.2
+  lr_min_ratio: 0.1
+  eval_interval_steps: 10000
+  shuffle_requests_on_reset: true
+  device: "cuda"
+
+env:
+  max_pending: 30
+  max_steps_per_slot: 100
+  invalid_action_penalty: 0.2
+  claim_reward: 0.0
+  sfc_potential_reward: 0.2
+  max_potential_sfc_reward_count: 3.0
+  deployed_vnf_reward: 0.1
+  complete_sfc_reward: 6.0
+  empty_slot_penalty: 0.5
+  terminal_success_bonus: 40.0
+
+logging:
+  output_dir: "../output"
+  step_log: false
+  record_step_metrics: false
+  log_interval_updates: 10
+
+dataset:
+  base_seed: 42
+  num_episodes: 100
+  data_dir: "/root/paddlejob/workspace/UAV_SFC_Code/data"
+  eval:
+    base_seed: 100042
+    num_episodes: 10
+    num_eval_episodes: 10
+    data_dir: "/root/paddlejob/workspace/UAV_SFC_Code/eval_data"
+    force_regenerate: false

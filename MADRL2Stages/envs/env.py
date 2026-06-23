@@ -173,6 +173,7 @@ class MAPPOSFCEnv:
         self.turn_in_round = 0  # 当前 round 已执行到第几个 agent
         self.round_end_votes = 0  # 兼容日志字段，占位
         self.shuffle_requests_on_reset = False
+        self.slot_potential_value = 0.0
 
         self._init_scene()
 
@@ -227,6 +228,9 @@ class MAPPOSFCEnv:
         invalid_count = 0
         valid_claim_count = 0
         sfc_potential_count = 0
+        potential_before = self.slot_potential_value
+        potential_after = potential_before
+        potential_delta = 0.0
         action = int(action)
         location_id = self.decode_action(action)
         location_valid = 1 <= location_id <= self.cfg.num_locations
@@ -240,6 +244,9 @@ class MAPPOSFCEnv:
                 valid_claim_count = 1
                 sfc_potential_count = self._count_location_sfc_potential(agent_id, int(location_id))
                 self._move_uav_to_selected_location(agent_id, int(location_id))
+                potential_after = self._compute_slot_potential_value()
+                potential_delta = potential_after - potential_before
+                self.slot_potential_value = potential_after
             else:
                 invalid_count += 1
 
@@ -278,12 +285,14 @@ class MAPPOSFCEnv:
             or self.episode_step >= self.cfg.max_steps_per_episode
         )
 
-        # 奖励：可行地点 + SFC完成潜力 + 规则部署 + 完成SFC - 非法惩罚
+        # 奖励：可行地点 + slot潜力差分 + 规则部署 + 完成SFC - 非法惩罚
         reward = self.cfg.claim_reward * valid_claim_count
-        reward += self.cfg.sfc_potential_reward * min(
-            float(sfc_potential_count),
+        clipped_potential_delta = float(np.clip(
+            potential_delta,
+            -float(self.cfg.max_potential_sfc_reward_count),
             float(self.cfg.max_potential_sfc_reward_count),
-        )
+        ))
+        reward += self.cfg.sfc_potential_reward * clipped_potential_delta
         reward += self.cfg.deployed_vnf_reward * float(slot_deployed_vnf)
         reward += self.cfg.complete_sfc_reward * float(slot_completed)
         if slot_ended and slot_completed <= 0:
@@ -309,6 +318,8 @@ class MAPPOSFCEnv:
             "invalid_count": invalid_count,
             "valid_claim_count": valid_claim_count,
             "sfc_potential_count": int(sfc_potential_count),
+            "slot_potential_delta": float(potential_delta),
+            "slot_potential_value": float(self.slot_potential_value),
             "current_slot": self.current_time_slot,
             "current_round": self.current_round,
             "turn_in_round": self.turn_in_round,
@@ -477,6 +488,7 @@ class MAPPOSFCEnv:
         self.round_end_votes = 0
         self.slot_claims = {}
         self.agent_slot_location = {agent_id: None for agent_id in self.agent_ids}
+        self.slot_potential_value = 0.0
 
     def _is_location_feasible_for_agent(self, agent_id: int, location_id: int) -> bool:
         if location_id <= 0 or location_id > self.cfg.num_locations:
@@ -514,6 +526,31 @@ class MAPPOSFCEnv:
             return self._is_valid_claim(agent_id, req_idx, vnf_idx)
         finally:
             self.agent_slot_location[agent_id] = prev_locked
+
+    def _compute_slot_potential_value(self) -> float:
+        """统计当前 slot 已选 locations 可形成的完整 SFC 候选数。"""
+        potential = 0
+        for req_idx in range(self._actionable_request_count()):
+            req = self.requests[req_idx]
+            if req.is_serviced:
+                continue
+
+            vnf0_agents: List[int] = []
+            vnf1_agents: List[int] = []
+            for agent_id in self.agent_ids:
+                selected_loc = self.agent_slot_location.get(agent_id)
+                if selected_loc is None:
+                    continue
+                if int(req.vnfs[0].location_id) == int(selected_loc) and self._is_valid_claim(agent_id, req_idx, 0):
+                    vnf0_agents.append(int(agent_id))
+                if int(req.vnfs[1].location_id) == int(selected_loc) and self._is_valid_claim(agent_id, req_idx, 1):
+                    vnf1_agents.append(int(agent_id))
+
+            for agent0 in vnf0_agents:
+                for agent1 in vnf1_agents:
+                    if agent0 != agent1:
+                        potential += 1
+        return float(potential)
 
     def _count_location_sfc_potential(self, agent_id: int, location_id: int) -> int:
         """统计当前选择的 location 能参与完成多少个完整 SFC 候选。"""

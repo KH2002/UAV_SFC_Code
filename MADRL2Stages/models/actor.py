@@ -31,9 +31,6 @@ class MAPPOActor(nn.Module):
         self.self_encoder = MLP(
             self_dim, hidden_dim, hidden_dim, num_layers=2, dropout=dropout, use_layer_norm=True
         )
-        self.task_encoder = MLP(
-            task_dim, hidden_dim, hidden_dim, num_layers=2, dropout=dropout, use_layer_norm=True
-        )
         self.context_encoder = MLP(
             context_dim, hidden_dim, hidden_dim, num_layers=2, dropout=dropout, use_layer_norm=True
         )
@@ -41,32 +38,10 @@ class MAPPOActor(nn.Module):
         self.agent_blocks = nn.ModuleList(
             [TransformerBlock(hidden_dim, num_heads=num_heads, dropout=dropout) for _ in range(num_agent_blocks)]
         )
-        self.task_blocks = nn.ModuleList(
-            [TransformerBlock(hidden_dim, num_heads=num_heads, dropout=dropout) for _ in range(num_agent_blocks)]
-        )
         self.vnf_blocks = nn.ModuleList(
             [TransformerBlock(hidden_dim, num_heads=num_heads, dropout=dropout) for _ in range(num_agent_blocks)]
         )
 
-        self.cross_attn = nn.MultiheadAttention(
-            embed_dim=hidden_dim,
-            num_heads=num_heads,
-            dropout=dropout,
-            batch_first=True,
-        )
-        self.cross_query_norm = nn.LayerNorm(hidden_dim)
-        self.cross_kv_norm = nn.LayerNorm(hidden_dim)
-        self.cross_dropout = nn.Dropout(dropout)
-        self.cross_norm = nn.LayerNorm(hidden_dim)
-
-        self.policy_head = MLP(
-            hidden_dim * 3,
-            hidden_dim,
-            action_dim,
-            num_layers=2,
-            dropout=dropout,
-            use_layer_norm=True,
-        )
         self.vnf_encoder = MLP(
             7,
             hidden_dim,
@@ -107,13 +82,6 @@ class MAPPOActor(nn.Module):
         bsz, _, hidden = agent_tokens.shape
         gather_idx = current_agent_id.view(bsz, 1, 1).expand(-1, 1, hidden)
         return agent_tokens.gather(dim=1, index=gather_idx).squeeze(1)
-
-    def _encode_tasks(self, task_matrix: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]:
-        task_tokens = self.task_encoder(task_matrix)
-        task_padding_mask = task_matrix.abs().sum(dim=-1) <= 0
-        for block in self.task_blocks:
-            task_tokens = block(task_tokens, key_padding_mask=task_padding_mask)
-        return task_tokens, task_padding_mask
 
     def _encode_vnfs(self, task_matrix: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
         vnf_features = self._build_vnf_features(task_matrix)
@@ -187,55 +155,45 @@ class MAPPOActor(nn.Module):
         action_mask: Optional[torch.Tensor] = None,
         agent_avail_mask: Optional[torch.Tensor] = None,
     ) -> Dict[str, torch.Tensor]:
+        if vnf_location_ids is None:
+            raise ValueError("vnf_location_ids is required: 动作 logits 由 VNF 得分散射得到。")
+
         agent_tokens = self._encode_agents(agent_self, agent_avail_mask)  # [B,N,H]
         selected_agent = self._select_current_agent_token(agent_tokens, current_agent_id)  # [B,H]
-
-        task_tokens, task_padding_mask = self._encode_tasks(task_matrix)  # [B,P,H]
         context_token = self.context_encoder(context)  # [B,H]
 
-        query = (selected_agent + context_token).unsqueeze(1)  # [B,1,H]
-        norm_query = self.cross_query_norm(query)
-        norm_task_tokens = self.cross_kv_norm(task_tokens)
+        vnf_tokens, flat_vnf_features, _ = self._encode_vnfs(task_matrix)  # [B,2P,H]
+        bsz = vnf_tokens.shape[0]
+        flat_location_ids = vnf_location_ids.reshape(bsz, -1)
 
-        cross_out, _ = self.cross_attn(
-            query=norm_query,
-            key=norm_task_tokens,
-            value=norm_task_tokens,
-            key_padding_mask=task_padding_mask,
-            need_weights=False,
+        # 动作空间大小在运行时确定：优先用 action_mask 的宽度（=num_locations），
+        # 没有 mask 时回退到 location_id 的最大值。网络权重与该值无关，可推理期动态变化。
+        if action_mask is not None:
+            action_dim = int(action_mask.shape[-1])
+        else:
+            action_dim = int(flat_location_ids.max().item()) + 1
+
+        selected_expand = selected_agent.unsqueeze(1).expand_as(vnf_tokens)
+        context_expand = context_token.unsqueeze(1).expand_as(vnf_tokens)
+        vnf_fusion = torch.cat([selected_expand, vnf_tokens, context_expand], dim=-1)
+        vnf_scores = self.vnf_score_head(vnf_fusion).squeeze(-1)  # [B,2P]
+
+        vnf_state = flat_vnf_features[..., 2]
+        valid_vnf = (
+            (flat_location_ids >= 0)
+            & (flat_location_ids < action_dim)
+            & (vnf_state < 2.0)
+            & (flat_vnf_features.abs().sum(dim=-1) > 0)
         )
-        cross_out = self.cross_norm(query + self.cross_dropout(cross_out)).squeeze(1)  # [B,H]
+        safe_location_ids = flat_location_ids.clamp(min=0, max=action_dim - 1)
 
-        fusion = torch.cat([selected_agent, cross_out, context_token], dim=-1)  # [B,3H]
-        logits = self.policy_head(fusion)  # [B,A]
-        vnf_scores = None
-
-        if vnf_location_ids is not None:
-            vnf_tokens, flat_vnf_features, _ = self._encode_vnfs(task_matrix)  # [B,2P,H]
-            bsz = vnf_tokens.shape[0]
-            flat_location_ids = vnf_location_ids.reshape(bsz, -1)
-
-            selected_expand = selected_agent.unsqueeze(1).expand_as(vnf_tokens)
-            context_expand = context_token.unsqueeze(1).expand_as(vnf_tokens)
-            vnf_fusion = torch.cat([selected_expand, vnf_tokens, context_expand], dim=-1)
-            vnf_scores = self.vnf_score_head(vnf_fusion).squeeze(-1)  # [B,2P]
-
-            vnf_state = flat_vnf_features[..., 2]
-            valid_vnf = (
-                (flat_location_ids >= 0)
-                & (flat_location_ids < self.action_dim)
-                & (vnf_state < 2.0)
-                & (flat_vnf_features.abs().sum(dim=-1) > 0)
-            )
-            safe_location_ids = flat_location_ids.clamp(min=0, max=self.action_dim - 1)
-
-            logits = torch.zeros(
-                bsz,
-                self.action_dim,
-                dtype=vnf_scores.dtype,
-                device=vnf_scores.device,
-            )
-            logits.scatter_add_(dim=1, index=safe_location_ids, src=vnf_scores.masked_fill(~valid_vnf, 0.0))
+        logits = torch.zeros(
+            bsz,
+            action_dim,
+            dtype=vnf_scores.dtype,
+            device=vnf_scores.device,
+        )
+        logits.scatter_add_(dim=1, index=safe_location_ids, src=vnf_scores.masked_fill(~valid_vnf, 0.0))
 
         if action_mask is not None:
             logits = logits.masked_fill(~action_mask.bool(), -1e9)
@@ -243,9 +201,8 @@ class MAPPOActor(nn.Module):
         return {
             "logits": logits,
             "selected_agent": selected_agent,
-            "cross_token": cross_out,
             "context_token": context_token,
-            "vnf_scores": vnf_scores if vnf_location_ids is not None else None,
+            "vnf_scores": vnf_scores,
         }
 
     def get_dist(

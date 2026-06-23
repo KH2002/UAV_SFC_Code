@@ -5,7 +5,7 @@ scene:
   area_size: 1000.0          # 区域边长（米）
   num_locations: 20          # 任务位置数量
   num_uavs: 8                # UAV 数量（Agent 数）
-  num_requests: 30           # SFC 请求数量
+  num_requests: 50           # SFC 请求数量
   num_time_slots: 4          # 总时隙数
   vnfs_per_request: 2        # 每个请求的 VNF 数（当前环境逻辑固定按 2 处理）
 
@@ -32,7 +32,7 @@ network:
 training:
   total_episodes: 3000       # 兼容字段：若没给 max_step，会用于估算总步数
   max_step: 100000          # 训练总环境步数上限（优先于 total_episodes）
-  save_step: 25000          # 周期保存间隔（按 env_step）
+  save_step: 10000          # 周期保存间隔（按 env_step）
   total_timesteps: null      # 兼容旧字段（建议用 max_step）
   rollout_steps: 1024        # 每次 PPO 更新前采样的环境步数
   max_steps_per_episode: 200 # 单 episode 最大步数（环境 done 条件）
@@ -49,7 +49,7 @@ training:
 
 # 环境奖励/约束参数
 env:
-  max_pending: 30            # 任务池最大可见请求数
+  max_pending: 100            # 任务池最大可见请求数
   max_steps_per_slot: 100    # 每个时隙最大 round 数
   invalid_action_penalty: 0.2 # 非法动作惩罚
   claim_reward: 0.00         # 选择可行 location 的小奖励
